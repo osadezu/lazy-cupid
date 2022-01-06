@@ -1,0 +1,141 @@
+/* For debugging */
+/* * {
+  border: 1px solid red;
+} */
+
+:root {
+  --background-color: rgb(196, 169, 250);
+  --highlight-background-color: mediumslateblue;
+  --highlight-text-color: gold;
+  --text-color: slategray;
+}
+
+.card,
+.toolkit {
+  box-shadow: 0.5rem 0.75rem 0.2rem black;
+}
+
+body {
+  background-color: var(--background-color);
+}
+
+.app {
+  display: flex;
+  flex-flow: column nowrap;
+}
+/* Review flex grandchildren pushing height
+https://stackoverflow.com/questions/51834332/why-doesnt-the-nested-flex-parent-height-grow-with-children */
+
+header {
+  padding: 0.5rem 1.5rem;
+  flex: 0 1 auto;
+  background-color: var(--highlight-background-color);
+  color: var(--highlight-text-color);
+}
+
+button {
+  border: 0;
+  border-radius: 0;
+  background-color: var(--highlight-background-color);
+  color: var(--highlight-text-color);
+}
+
+.builder {
+  padding: 2.5rem;
+  flex: 1 1 auto;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-around;
+  align-items: flex-end;
+}
+
+.card {
+  margin: 0 2rem;
+  flex: 0 1 auto;
+  background-color: white;
+  display: grid;
+  place-items: stretch;
+  grid-template-columns: minmax(200px, 1fr) 1fr;
+  grid-template-rows: repeat(2, minmax(200px, 50%)) [bottom];
+  grid-template-areas:
+    'left tr'
+    'left br';
+}
+
+.cat {
+  padding: 1.5rem;
+  grid-area: left;
+  /* Use black mat? */
+  /* background-color: black; */
+  object-fit: contain;
+}
+
+.quote {
+  padding: 1.5rem;
+  /* grid-area: text; */
+  grid-row: 1 / bottom;
+  font-size: x-large;
+  line-height: 1.5;
+}
+
+/* .curly {
+  font-style: italic;
+  font-size: xx-large;
+} */
+
+.toolkit {
+  height: 100%;
+  margin-left: 2rem;
+  padding: 0.5rem;
+  flex: 0 0 auto;
+  display: grid;
+  grid-template-columns: [start] repeat(3, auto) [end];
+  grid-auto-rows: minmax(3rem, auto);
+  place-items: center;
+  background-color: white;
+}
+
+/* .toolkit > * {
+  margin-top: 0.75rem;
+} */
+
+.toolkit > button {
+  place-items: stretch;
+  height: 2rem;
+  width: 2rem;
+  box-shadow: 0.15rem 0.15rem black;
+}
+
+.toolkit > .wide {
+  width: auto;
+  grid-column: start / end;
+  place-self: center stretch;
+  white-space: nowrap;
+  text-align: center;
+}
+
+.toolkit > .text-button {
+  width: auto;
+  border: none;
+  background-color: transparent;
+  color: inherit;
+  font: inherit;
+  white-space: nowrap;
+  box-shadow: none;
+}
+
+.toolkit > .prev::before {
+  content: '\25C0';
+}
+
+.toolkit > .next::before {
+  content: '\25B6';
+}
+
+/* .toolkit > label.wide {
+  place-self: end center;
+} */
+
+#copy-link {
+  font-weight: bold;
+}
