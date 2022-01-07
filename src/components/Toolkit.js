@@ -1,6 +1,6 @@
 import React from 'react';
 
-function Toolkit(props) {
+function Toolkit({ imageDispatch, quoteDispatch }) {
   return (
     <div className='toolkit'>
       <label htmlFor='recipient' className='wide'>
@@ -12,16 +12,29 @@ function Toolkit(props) {
         className='wide'
         placeholder="your sweetheart's name"
       />
-      <button type='button' className='prev' id='cat-prev' />
+      <button
+        type='button'
+        className='prev'
+        onClick={() => imageDispatch({ get: 'prev' })}
+      />
       <button type='button' className='text-button' id='cat-change'>
-        change cat
+        more cats
       </button>
-      <button type='button' className='next' id='cat-next'></button>
-      <button type='button' className='prev' id='quote-prev'></button>
+      <button
+        type='button'
+        className='next'
+        onClick={() => imageDispatch({ get: 'next' })}></button>
+      <button
+        type='button'
+        className='prev'
+        onClick={() => quoteDispatch({ get: 'prev' })}></button>
       <button type='button' className='text-button' id='quote-change'>
-        change quote
+        more quotes
       </button>
-      <button type='button' className='next' id='quote-next'></button>
+      <button
+        type='button'
+        className='next'
+        onClick={() => quoteDispatch({ get: 'next' })}></button>
       <label htmlFor='message' className='wide'>
         Add a personal message?
       </label>

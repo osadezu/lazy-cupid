@@ -1,19 +1,18 @@
 import React from 'react';
 
-function Card(props) {
+function Card({ image, quote }) {
   return (
     <div className='card'>
+      {/* TODO: Take out api address and 'cat' strings for generic image types */}
       <img
-        className='cat'
-        src='https://cataas.com/cat/615ea3c40b0d93001872e15f'
-        alt='cute cat'
+        className='photo'
+        src={`https://cataas.com/cat/${image.id}`}
+        alt={image.tags.length ? image.tags.join(' ') + 'cat' : 'Cute cat.'}
       />
-      <p className='quote'>
-        <span className='curly'>“</span>You've gotta dance like there's nobody
-        watching, Love like you'll never be hurt, Sing like there's nobody
-        listening and Live like its heaven on earth.
-        <span className='curly'>”</span>
-      </p>
+      <div className='quote'>
+        <p className='quote-text'>{quote.quote}</p>
+        <p className='author'>{quote.author}</p>
+      </div>
     </div>
   );
 }

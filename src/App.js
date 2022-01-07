@@ -7,7 +7,9 @@ function App() {
       <header>
         <h1>Lazy Cupid!</h1>
       </header>
-      <Outlet />
+      <main>
+        <Outlet />
+      </main>
     </div>
   );
 }

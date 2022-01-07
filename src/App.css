@@ -40,9 +40,12 @@ button {
   color: var(--highlight-text-color);
 }
 
-.builder {
+main {
   padding: 2.5rem;
   flex: 1 1 auto;
+}
+
+.builder {
   display: flex;
   flex-flow: row nowrap;
   justify-content: space-around;
@@ -62,7 +65,7 @@ button {
     'left br';
 }
 
-.cat {
+.photo {
   padding: 1.5rem;
   grid-area: left;
   /* Use black mat? */

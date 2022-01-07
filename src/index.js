@@ -4,13 +4,18 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 import App from './App';
 import Builder from './components/Builder';
+import Welcome from './components/Welcome';
+import Error from './components/Error';
 import './index.css';
 
 ReactDOM.render(
   <BrowserRouter>
     <Routes>
       <Route path='/' element={<App />}>
-        <Route path='build' element={<Builder />}></Route>
+        <Route index element={<Welcome />} />
+        <Route path='build' element={<Builder />} />
+        <Route path='oops' element={<Error />}></Route>
+        <Route path='*' element={<Error />} />
       </Route>
     </Routes>
   </BrowserRouter>,
