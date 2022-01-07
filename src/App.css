@@ -164,13 +164,12 @@ main {
   place-self: end center;
 } */
 
-#copy-link {
+.toolkit > .action-button {
   font-weight: bold;
 }
 
-/* button:hover {
-  
-} */
+button:hover {
+}
 
 button:active {
   box-shadow: 0.15rem 0 black;

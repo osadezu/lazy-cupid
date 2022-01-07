@@ -3,7 +3,6 @@ import React from 'react';
 function Card({ image, quote }) {
   return (
     <div className='card'>
-      {/* TODO: Take out api address and 'cat' strings for generic image types */}
       <img
         className='photo'
         src={`https://cataas.com/cat/${image.id}`}

@@ -5,4 +5,12 @@ A silly but fully functional web app that allows someone who is short on time to
 ### Technologies used
 
 - React
-- React Router
+- Browser Router
+- Authenticated API requests (HTTP over TLS)
+
+### Special Acknowledgement
+
+The following APIs provide the greeting card content:
+
+- Paper Quotes https://paperquotes.com/
+- Cataas https://cataas.com/

@@ -1,11 +1,11 @@
 import React from 'react';
 import { useReducer, useEffect } from 'react';
-import { useSearchParams, useLocation } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 
 import Card from './Card';
 import Toolkit from './Toolkit';
 
-import { getQuotes, getCats } from '../data';
+import { getQuotes, getCats } from '../data/staticData';
 
 // import Collection from './Collection'
 
@@ -46,13 +46,13 @@ const testDetails = {
 };
 
 const initialDetails = {
-  recipient: '',
-  sender: '',
-  imageID: '',
-  // quoteID: '',// Tbd paperquotes response
-  quote: '',
-  quoteAuthor: '',
-  message: '',
+  // recipient: '',
+  // sender: '',
+  // imageID: '',
+  // // quoteID: '',// Tbd paperquotes response
+  // quote: '',
+  // quoteAuthor: '',
+  // message: '',
 };
 
 function Builder(props) {
@@ -60,19 +60,7 @@ function Builder(props) {
   const [quotes, quoteDispatch] = useReducer(collectionReducer, getQuotes());
   const [details, detailsDispatch] = useReducer(detailsReducer, initialDetails);
 
-  let [searchParams, setSearchParams] = useSearchParams();
-
-  let location = useLocation();
-
-  useEffect(() => {
-    setSearchParams(details);
-    console.log(location);
-  }, [details]);
-
-  // Perhaps use generatePath() instead??
-  // Perhaps use generatePath() instead??
-  // Perhaps use generatePath() instead??
-  // Perhaps use generatePath() instead??
+  const [searchParams, setSearchParams] = useSearchParams();
 
   useEffect(() => {
     detailsDispatch({
@@ -85,6 +73,16 @@ function Builder(props) {
     });
   }, [images, quotes]);
 
+  // When user is done, preview card and generate URL
+  function handleSubmit(event) {
+    console.log(event);
+    event.preventDefault();
+    setSearchParams(details);
+  }
+
+  function preventEnterSubmit() {}
+
+  // Store inputs in details object when typing
   function handleTextChange(event) {
     detailsDispatch({
       type: 'update-text',
@@ -92,15 +90,17 @@ function Builder(props) {
     });
   }
 
+  // Update user selection of image/quote in content collection
+  // or request new data be loaded to collection
   function handleSelection(type, action) {
     if (action === 'new') {
       // TODO: Get more from API and send to reducer as payload: [{…}, {…}, {…}, …]
     } else {
       if (type === 'image') {
-        imageDispatch({ type: action });
+        imageDispatch({ type: action }); // Update image selection
       }
       if (type === 'quote') {
-        quoteDispatch({ type: action });
+        quoteDispatch({ type: action }); // Update quote selection
       }
     }
   }
@@ -109,6 +109,8 @@ function Builder(props) {
     <div className='builder'>
       <Card image={images[0]} quote={quotes[0]} />
       <Toolkit
+        handleSubmit={handleSubmit}
+        preventEnterSubmit={preventEnterSubmit}
         handleTextChange={handleTextChange}
         handleSelection={handleSelection}
       />

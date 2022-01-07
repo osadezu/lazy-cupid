@@ -1,8 +1,16 @@
 import React from 'react';
 
-function Toolkit({ handleTextChange, handleSelection }) {
+function Toolkit({
+  handleSubmit,
+  preventEnterSubmit,
+  handleTextChange,
+  handleSelection,
+}) {
   return (
-    <div className='toolkit'>
+    <form
+      onSubmit={handleSubmit}
+      onKeyDown={preventEnterSubmit}
+      className='toolkit'>
       <label htmlFor='recipient' className='wide'>
         Who's the lucky one?
       </label>
@@ -12,7 +20,7 @@ function Toolkit({ handleTextChange, handleSelection }) {
         name='recipient'
         className='wide'
         placeholder="your sweetheart's name"
-        onChange={(event) => handleTextChange(event)}
+        onChange={handleTextChange}
       />
       <button
         type='button'
@@ -61,7 +69,7 @@ function Toolkit({ handleTextChange, handleSelection }) {
         rows='2'
         className='wide'
         placeholder='Go the extra yard!'
-        onChange={(event) => handleTextChange(event)}></textarea>
+        onChange={handleTextChange}></textarea>
       <label htmlFor='sender' className='wide'>
         And who should we say sent it?
       </label>
@@ -71,12 +79,12 @@ function Toolkit({ handleTextChange, handleSelection }) {
         name='sender'
         className='wide'
         placeholder='you in your shining armor'
-        onChange={(event) => handleTextChange(event)}
+        onChange={handleTextChange}
       />
-      <button type='button' id='copy-link' className='wide'>
-        Copy my link &amp; send love!
+      <button type='submit' name='done-building' className='wide action-button'>
+        Send some love!
       </button>
-    </div>
+    </form>
   );
 }
 
