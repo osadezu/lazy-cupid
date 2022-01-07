@@ -4,15 +4,21 @@
 } */
 
 :root {
-  --background-color: rgb(196, 169, 250);
+  /* --background-color: rgb(196, 169, 250);
   --highlight-background-color: mediumslateblue;
-  --highlight-text-color: gold;
+  --highlight-text-color: gold; */
+
+  --background-color: hsl(100, 35%, 90%);
+  --highlight-background-color: hsl(336, 80%, 50%);
+  --highlight-text-color: #f2ffe9;
+  --another: #557c55;
+
   --text-color: slategray;
 }
 
 .card,
 .toolkit {
-  box-shadow: 0.5rem 0.75rem 0.2rem black;
+  box-shadow: 0.5rem 0.75rem 0.2rem rgb(0, 0, 0);
 }
 
 body {
@@ -77,14 +83,31 @@ main {
   padding: 1.5rem;
   /* grid-area: text; */
   grid-row: 1 / bottom;
+  quotes: '“' '”';
+}
+
+.quote-text {
   font-size: x-large;
   line-height: 1.5;
 }
 
-/* .curly {
-  font-style: italic;
-  font-size: xx-large;
-} */
+.quote-text::before {
+  content: open-quote;
+}
+
+.quote-text::after {
+  content: close-quote;
+}
+
+.author {
+  margin-top: 1rem;
+  font-size: larger;
+  text-align: right;
+}
+
+.author::before {
+  content: '~ ';
+}
 
 .toolkit {
   height: 100%;
@@ -107,6 +130,8 @@ main {
   height: 2rem;
   width: 2rem;
   box-shadow: 0.15rem 0.15rem black;
+  -webkit-transform: translateY(-0.15rem);
+  transform: translateY(-0.15rem);
 }
 
 .toolkit > .wide {
@@ -141,4 +166,14 @@ main {
 
 #copy-link {
   font-weight: bold;
+}
+
+/* button:hover {
+  
+} */
+
+button:active {
+  box-shadow: 0.15rem 0 black;
+  -webkit-transform: translateY(0.15rem);
+  transform: translateY(0.15rem);
 }
