@@ -1,5 +1,5 @@
-import { useReducer } from 'react';
-import { Outlet } from 'react-router-dom';
+import { useState, useReducer } from 'react';
+import { Outlet, useLocation } from 'react-router-dom';
 
 import './App.css';
 
@@ -47,17 +47,28 @@ function App() {
     quotesAPI: { baseURL: 'XXX' },
   };
 
-  // const [searchParams, setSearchParams] = useSearchParams();
+  // Indicate that url was copied to clipboard
+  const [copied, setCopied] = useState(false);
+  function handleCopyLink(event) {
+    navigator.clipboard
+      .writeText(window.location.href)
+      .then(() => setCopied(true));
+    // .catch(console.error);
+    // Handle error for user
+  }
 
-  // // Keep details in search query
-  // useEffect(() => {
-  //   setSearchParams(details);
-  // }, [setSearchParams, details]);
+  // Used to enable copy link button after navigating from builder to retriever
+  const { state } = useLocation();
 
   return (
     <div className='app'>
       <header>
         <h1>Lazy Cupid!</h1>
+        {!!state && 'senderView' in state && (
+          <button type='button' onClick={handleCopyLink}>
+            {copied ? 'Copied!' : 'Copy Link'}
+          </button>
+        )}
       </header>
       <main>
         <Outlet context={{ appContext, details, detailsDispatch }} />

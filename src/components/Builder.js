@@ -1,6 +1,9 @@
-import React from 'react';
 import { useEffect, useReducer } from 'react';
-import { useOutletContext, useNavigate } from 'react-router-dom';
+import {
+  useOutletContext,
+  createSearchParams,
+  useNavigate,
+} from 'react-router-dom';
 
 import Card from './Card';
 import Toolkit from './Toolkit';
@@ -32,7 +35,7 @@ function Builder(props) {
   const imageBaseUrl = appContext.imagesAPIs[0].baseURL;
 
   // Hook to navigate to card preview when user is done building
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
   // States and reduers for content collections
   const [images, imageDispatch] = useReducer(collectionReducer, getCats());
@@ -54,18 +57,28 @@ function Builder(props) {
   }, [detailsDispatch, images, quotes]);
 
   // When user is done, preview card and generate URL
-  // let [cardLink, setCardLink] = useState(false);
-
   function handleSubmit(event) {
     event.preventDefault();
-    // navigate(
-    //   {
+    navigate(
+      {
+        pathname: '/show',
+        search: createSearchParams(details).toString(),
+      },
+      { state: { senderView: true } }
+    );
+    // setCardLink(
+    //   resolvePath({
     //     pathname: '/show',
     //     search: createSearchParams(details).toString(),
-    //   }
+    //   })
     // );
-    // setCardLink(true);
   }
+
+  // const url = useHref({
+  //   pathname: '/show',
+  //   search: createSearchParams(details).toString(),
+  // });
+  // console.log(url);
 
   // Prevent form from being submitted on Enter
   function preventEnterSubmit() {}
@@ -107,6 +120,7 @@ function Builder(props) {
         handleTextChange={handleTextChange}
         handleSelection={handleSelection}
         details={details}
+        // cardLink={cardLink}
       />
     </div>
   );

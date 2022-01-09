@@ -1,15 +1,18 @@
 import React from 'react';
-import {
-  useLocation,
-  useOutletContext,
-  useSearchParams,
-} from 'react-router-dom';
+import { useOutletContext, useSearchParams } from 'react-router-dom';
 
 import Card from './Card';
 
 function Retriever(props) {
   // Get general app settings
-  const { appContext, details } = useOutletContext();
+  const { appContext } = useOutletContext();
+
+  // Load details from search query
+  const details = {};
+  const [searchParams] = useSearchParams();
+  for (const [key, value] of searchParams) {
+    details[key] = value;
+  }
 
   const imageBaseUrl = appContext.imagesAPIs[0].baseURL;
 

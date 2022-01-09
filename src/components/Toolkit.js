@@ -1,11 +1,10 @@
-import React from 'react';
-
 function Toolkit({
   handleSubmit,
   preventEnterSubmit,
   handleTextChange,
   handleSelection,
   details,
+  // cardLink,
 }) {
   return (
     <form
