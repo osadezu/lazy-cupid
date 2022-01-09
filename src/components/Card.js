@@ -1,18 +1,24 @@
 import React from 'react';
 
-function Card({ image, quote }) {
+function Card({ cardDetails }) {
   return (
-    <div className='card'>
-      <img
-        className='photo'
-        src={`https://cataas.com/cat/${image.id}`}
-        alt={image.tags.length ? image.tags.join(' ') + 'cat' : 'Cute cat.'}
-      />
-      <div className='quote'>
-        <p className='quote-text'>{quote.quote}</p>
-        <p className='author'>{quote.author}</p>
+    <>
+      <h2>Dear {cardDetails.recipient},</h2>
+      <div className='card'>
+        <img
+          className='photo'
+          src={cardDetails.imageSrc}
+          alt={cardDetails.imageAlt}
+        />
+        <div className='quote'>
+          <p className='quote-text'>{cardDetails.quote}</p>
+          <p className='author'>{cardDetails.quoteAuthor}</p>
+        </div>
+        <div className='signature'>
+          With Love, <span className='sender'>{cardDetails.sender}</span>
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 

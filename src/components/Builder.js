@@ -1,6 +1,11 @@
 import React from 'react';
 import { useReducer, useEffect } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import {
+  useOutletContext,
+  useSearchParams,
+  createSearchParams,
+  useNavigate,
+} from 'react-router-dom';
 
 import Card from './Card';
 import Toolkit from './Toolkit';
@@ -38,35 +43,52 @@ function detailsReducer(state, action) {
 const testDetails = {
   recipient: 'Valen',
   sender: 'Tine',
+  message: "I don't wanna wait!",
   imageID: '595f280e557291a9750ebf9f',
-  // quoteID: // Tbd paperquotes response
+  imageAlt: 'cute cat',
   quote: "Don't cry because it's over, smile because it happened.",
   quoteAuthor: 'Dr. Seuss',
-  message: "I don't wanna wait!",
 };
 
 const initialDetails = {
   // recipient: '',
   // sender: '',
+  // message: '',
   // imageID: '',
-  // // quoteID: '',// Tbd paperquotes response
+  // imageAlt: '',
   // quote: '',
   // quoteAuthor: '',
-  // message: '',
 };
 
 function Builder(props) {
-  const [images, imageDispatch] = useReducer(collectionReducer, getCats());
-  const [quotes, quoteDispatch] = useReducer(collectionReducer, getQuotes());
-  const [details, detailsDispatch] = useReducer(detailsReducer, initialDetails);
+  // Get general app settings
+  const appContext = useOutletContext();
 
+  // Content sources (For future addition of different choice APIs)
+  const imageBaseUrl = appContext.imagesAPIs[0].baseURL;
+
+  // Manage URL parameters
   const [searchParams, setSearchParams] = useSearchParams();
 
+  // Hook to navigate to card preview when user is done building
+  const navigate = useNavigate();
+
+  // States and reduers for content collections
+  const [images, imageDispatch] = useReducer(collectionReducer, getCats());
+  const [quotes, quoteDispatch] = useReducer(collectionReducer, getQuotes());
+
+  // State and reducer for user's customization details
+  const [details, detailsDispatch] = useReducer(detailsReducer, initialDetails);
+
+  // Changes to content collections trigger updating selections details
   useEffect(() => {
     detailsDispatch({
       type: 'update-content',
       payload: {
         imageID: images[0].id,
+        imageAlt: images[0].tags.length
+          ? images[0].tags.join(' ') + 'cat'
+          : 'cute cat',
         quote: quotes[0].quote,
         quoteAuthor: quotes[0].author,
       },
@@ -75,11 +97,15 @@ function Builder(props) {
 
   // When user is done, preview card and generate URL
   function handleSubmit(event) {
-    console.log(event);
     event.preventDefault();
-    setSearchParams(details);
+    // setSearchParams(details, { state: details });
+    navigate({
+      pathname: '/show',
+      search: createSearchParams(details).toString(),
+    });
   }
 
+  // Prevent form from being submitted on Enter
   function preventEnterSubmit() {}
 
   // Store inputs in details object when typing
@@ -107,7 +133,12 @@ function Builder(props) {
 
   return (
     <div className='builder'>
-      <Card image={images[0]} quote={quotes[0]} />
+      <Card
+        cardDetails={{
+          ...details,
+          imageSrc: `${imageBaseUrl}${details.imageID}`,
+        }}
+      />
       <Toolkit
         handleSubmit={handleSubmit}
         preventEnterSubmit={preventEnterSubmit}
