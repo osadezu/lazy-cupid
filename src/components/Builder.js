@@ -1,11 +1,6 @@
 import React from 'react';
-import { useReducer, useEffect } from 'react';
-import {
-  useOutletContext,
-  useSearchParams,
-  createSearchParams,
-  useNavigate,
-} from 'react-router-dom';
+import { useEffect, useReducer } from 'react';
+import { useOutletContext, useNavigate } from 'react-router-dom';
 
 import Card from './Card';
 import Toolkit from './Toolkit';
@@ -29,56 +24,19 @@ function collectionReducer(state, action) {
   }
 }
 
-function detailsReducer(state, action) {
-  switch (action.type) {
-    case 'update-text':
-      return { ...state, ...action.payload };
-    case 'update-content':
-      return { ...state, ...action.payload };
-    default:
-      return state;
-  }
-}
-
-const testDetails = {
-  recipient: 'Valen',
-  sender: 'Tine',
-  message: "I don't wanna wait!",
-  imageID: '595f280e557291a9750ebf9f',
-  imageAlt: 'cute cat',
-  quote: "Don't cry because it's over, smile because it happened.",
-  quoteAuthor: 'Dr. Seuss',
-};
-
-const initialDetails = {
-  // recipient: '',
-  // sender: '',
-  // message: '',
-  // imageID: '',
-  // imageAlt: '',
-  // quote: '',
-  // quoteAuthor: '',
-};
-
 function Builder(props) {
   // Get general app settings
-  const appContext = useOutletContext();
+  const { appContext, details, detailsDispatch } = useOutletContext();
 
   // Content sources (For future addition of different choice APIs)
   const imageBaseUrl = appContext.imagesAPIs[0].baseURL;
 
-  // Manage URL parameters
-  const [searchParams, setSearchParams] = useSearchParams();
-
   // Hook to navigate to card preview when user is done building
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   // States and reduers for content collections
   const [images, imageDispatch] = useReducer(collectionReducer, getCats());
   const [quotes, quoteDispatch] = useReducer(collectionReducer, getQuotes());
-
-  // State and reducer for user's customization details
-  const [details, detailsDispatch] = useReducer(detailsReducer, initialDetails);
 
   // Changes to content collections trigger updating selections details
   useEffect(() => {
@@ -93,16 +51,20 @@ function Builder(props) {
         quoteAuthor: quotes[0].author,
       },
     });
-  }, [images, quotes]);
+  }, [detailsDispatch, images, quotes]);
 
   // When user is done, preview card and generate URL
+  // let [cardLink, setCardLink] = useState(false);
+
   function handleSubmit(event) {
     event.preventDefault();
-    // setSearchParams(details, { state: details });
-    navigate({
-      pathname: '/show',
-      search: createSearchParams(details).toString(),
-    });
+    // navigate(
+    //   {
+    //     pathname: '/show',
+    //     search: createSearchParams(details).toString(),
+    //   }
+    // );
+    // setCardLink(true);
   }
 
   // Prevent form from being submitted on Enter
@@ -144,6 +106,7 @@ function Builder(props) {
         preventEnterSubmit={preventEnterSubmit}
         handleTextChange={handleTextChange}
         handleSelection={handleSelection}
+        details={details}
       />
     </div>
   );

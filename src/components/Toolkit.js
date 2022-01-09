@@ -5,6 +5,7 @@ function Toolkit({
   preventEnterSubmit,
   handleTextChange,
   handleSelection,
+  details,
 }) {
   return (
     <form
@@ -20,6 +21,7 @@ function Toolkit({
         name='recipient'
         className='wide'
         placeholder="your sweetheart's name"
+        value={details.recipient || ''}
         onChange={handleTextChange}
       />
       <button
@@ -69,6 +71,7 @@ function Toolkit({
         rows='2'
         className='wide'
         placeholder='Go the extra yard!'
+        value={details.message || ''}
         onChange={handleTextChange}></textarea>
       <label htmlFor='sender' className='wide'>
         And who should we say sent it?
@@ -79,6 +82,7 @@ function Toolkit({
         name='sender'
         className='wide'
         placeholder='you in your shining armor'
+        value={details.sender || ''}
         onChange={handleTextChange}
       />
       <button type='submit' name='done-building' className='wide action-button'>

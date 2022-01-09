@@ -1,6 +1,8 @@
 import React from 'react';
 
 function Card({ cardDetails }) {
+  if (!cardDetails.imageID) return null;
+
   return (
     <>
       <h2>Dear {cardDetails.recipient},</h2>
