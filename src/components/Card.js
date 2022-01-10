@@ -1,11 +1,13 @@
 import React from 'react';
 
+import './Card.css';
+
 function Card({ cardDetails }) {
   if (!cardDetails.imageID) return null;
 
   return (
     <>
-      <div className='card'>
+      <div className='card cardstock'>
         <img
           className='photo'
           src={cardDetails.imageSrc}
@@ -25,7 +27,9 @@ function Card({ cardDetails }) {
         </div>
         {cardDetails.sender && (
           <div className='signature'>
-            With Love, <span className='sender'>{cardDetails.sender}</span>
+            <p>
+              With Love, <span className='sender'>{cardDetails.sender}</span>
+            </p>
           </div>
         )}
       </div>

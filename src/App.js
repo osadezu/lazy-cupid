@@ -64,7 +64,7 @@ function App() {
     <div className='app'>
       <header>
         {/* When in Retriever, do not show 'Lazy' in heading :P */}
-        <h1>{pathname === '/show' ? 'Cupid Kitty!' : 'Lazy Cupid!'}</h1>
+        <h1>{pathname === '/show' ? 'Kitty Cupid!' : 'Lazy Cupid!'}</h1>
         {/* Enable copy link button after navigating from builder to retriever */}
         {!!state && 'senderView' in state && (
           <button

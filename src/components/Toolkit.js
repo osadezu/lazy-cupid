@@ -1,16 +1,14 @@
+import './Toolkit.css';
+
 function Toolkit({
   handleSubmit,
-  preventEnterSubmit,
   handleTextChange,
   handleSelection,
   details,
   // cardLink,
 }) {
   return (
-    <form
-      onSubmit={handleSubmit}
-      onKeyDown={preventEnterSubmit}
-      className='toolkit'>
+    <form onSubmit={handleSubmit} className='toolkit cardstock'>
       <label htmlFor='recipient' className='wide'>
         Who's the lucky one?
       </label>
@@ -20,6 +18,7 @@ function Toolkit({
         name='recipient'
         className='wide'
         placeholder="your sweetheart's name"
+        autoFocus
         value={details.recipient || ''}
         onChange={handleTextChange}
       />

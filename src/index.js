@@ -2,12 +2,13 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
+import './index.css'; // CSS 'Reset'
+
 import App from './App';
 import Welcome from './components/Welcome';
 import Builder from './components/Builder';
 import Retriever from './components/Retriever';
 import Error from './components/Error';
-import './index.css';
 
 ReactDOM.render(
   <BrowserRouter>

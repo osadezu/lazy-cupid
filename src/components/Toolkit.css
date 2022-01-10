@@ -1,0 +1,73 @@
+.toolkit {
+  margin: 0;
+  margin-left: 2.5rem;
+  grid-area: toolkit;
+  place-self: start center;
+
+  display: grid;
+  grid-template-columns: [start] repeat(3, auto) [end];
+  grid-template-rows: auto;
+  place-items: center;
+}
+
+.toolkit > * {
+  margin: 0.5rem 0;
+}
+.toolkit > *:first-child {
+  margin-top: 0;
+}
+.toolkit > *:last-child {
+  margin-bottom: 0;
+}
+
+.toolkit > button {
+  place-items: stretch;
+  height: 2rem;
+  width: 2rem;
+}
+
+.toolkit > .prev {
+  justify-self: end;
+}
+.toolkit > .next {
+  justify-self: start;
+}
+
+.toolkit > .wide {
+  width: auto;
+  grid-column: start / end;
+  place-self: center stretch;
+  white-space: nowrap;
+}
+
+.toolkit > label.wide {
+  text-align: center;
+  margin-bottom: -0.25rem;
+}
+
+.toolkit > .text-button {
+  width: auto;
+  border: none;
+  background-color: transparent;
+  color: inherit;
+  font: inherit;
+  white-space: nowrap;
+  box-shadow: none;
+}
+
+#message {
+  resize: vertical;
+  white-space: pre-line;
+}
+
+.toolkit > .prev::before {
+  content: '\25C0';
+}
+
+.toolkit > .next::before {
+  content: '\25B6';
+}
+
+/* .toolkit > label.wide {
+  place-self: end center;
+} */

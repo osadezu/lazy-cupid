@@ -80,8 +80,8 @@ function Builder(props) {
   // });
   // console.log(url);
 
-  // Prevent form from being submitted on Enter
-  function preventEnterSubmit() {}
+  // TODO: Prevent form from being submitted on Enter
+  // function preventEnterSubmit() {}
 
   // Store inputs in details object when typing
   function handleTextChange(event) {
@@ -116,11 +116,9 @@ function Builder(props) {
       />
       <Toolkit
         handleSubmit={handleSubmit}
-        preventEnterSubmit={preventEnterSubmit}
         handleTextChange={handleTextChange}
         handleSelection={handleSelection}
         details={details}
-        // cardLink={cardLink}
       />
     </main>
   );
