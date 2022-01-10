@@ -17,14 +17,14 @@ function Retriever(props) {
   const imageBaseUrl = appContext.imagesAPIs[0].baseURL;
 
   return (
-    <div className='retriever'>
+    <main className='retriever'>
       <Card
         cardDetails={{
           ...details,
           imageSrc: `${imageBaseUrl}${details.imageID}`,
         }}
       />
-    </div>
+    </main>
   );
 }
 

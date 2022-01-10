@@ -5,7 +5,6 @@ function Card({ cardDetails }) {
 
   return (
     <>
-      <h2>Dear {cardDetails.recipient},</h2>
       <div className='card'>
         <img
           className='photo'
@@ -16,9 +15,19 @@ function Card({ cardDetails }) {
           <p className='quote-text'>{cardDetails.quote}</p>
           <p className='author'>{cardDetails.quoteAuthor}</p>
         </div>
-        <div className='signature'>
-          With Love, <span className='sender'>{cardDetails.sender}</span>
+        <div className='note'>
+          {cardDetails.recipient && (
+            <p className='recipient'>{`My dear ${cardDetails.recipient},`}</p>
+          )}
+          {cardDetails.message && (
+            <p className='message'>{cardDetails.message}</p>
+          )}
         </div>
+        {cardDetails.sender && (
+          <div className='signature'>
+            With Love, <span className='sender'>{cardDetails.sender}</span>
+          </div>
+        )}
       </div>
     </>
   );

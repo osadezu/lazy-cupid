@@ -57,22 +57,25 @@ function App() {
     // Handle error for user
   }
 
-  // Used to enable copy link button after navigating from builder to retriever
-  const { state } = useLocation();
+  // Used to customize UI when previewing and retrieving card
+  const { pathname, state } = useLocation();
 
   return (
     <div className='app'>
       <header>
-        <h1>Lazy Cupid!</h1>
+        {/* When in Retriever, do not show 'Lazy' in heading :P */}
+        <h1>{pathname === '/show' ? 'Cupid Kitty!' : 'Lazy Cupid!'}</h1>
+        {/* Enable copy link button after navigating from builder to retriever */}
         {!!state && 'senderView' in state && (
-          <button type='button' onClick={handleCopyLink}>
+          <button
+            type='button'
+            className='action-button'
+            onClick={handleCopyLink}>
             {copied ? 'Copied!' : 'Copy Link'}
           </button>
         )}
       </header>
-      <main>
-        <Outlet context={{ appContext, details, detailsDispatch }} />
-      </main>
+      <Outlet context={{ appContext, details, detailsDispatch }} />
     </div>
   );
 }

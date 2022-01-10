@@ -3,9 +3,9 @@ import { Link } from 'react-router-dom';
 
 function Error(props) {
   return (
-    <div className='error'>
+    <main className='error'>
       <h2>💔 It's not you, it's us...</h2>
-    </div>
+    </main>
   );
 }
 

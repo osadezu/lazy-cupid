@@ -107,7 +107,7 @@ function Builder(props) {
   }
 
   return (
-    <div className='builder'>
+    <main className='builder'>
       <Card
         cardDetails={{
           ...details,
@@ -122,7 +122,7 @@ function Builder(props) {
         details={details}
         // cardLink={cardLink}
       />
-    </div>
+    </main>
   );
 }
 

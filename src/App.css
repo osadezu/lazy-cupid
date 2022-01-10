@@ -1,7 +1,4 @@
-/* For debugging */
-/* * {
-  border: 1px solid red;
-} */
+@import url('https://fonts.googleapis.com/css2?family=Licorice&family=Lobster&family=Merienda+One&display=swap');
 
 :root {
   /* --background-color: rgb(196, 169, 250);
@@ -11,9 +8,17 @@
   --background-color: hsl(100, 35%, 90%);
   --highlight-background-color: hsl(336, 80%, 50%);
   --highlight-text-color: #f2ffe9;
-  --another: #557c55;
+  --action-background-color: #557c55;
 
   --text-color: slategray;
+
+  --header-h1-font: 'Lobster', cursive;
+  --quote-font: 'Merienda One', cursive;
+  --signature-font: 'Licorice', cursive;
+  --message-font: 'Courier New', Courier, monospace;
+  /* font-family: 'Meow Script', cursive; */
+  /* font-family: 'Aladin', cursive; */
+  /* font-family: 'Licorice', cursive; */
 }
 
 .card,
@@ -26,104 +31,162 @@ body {
 }
 
 .app {
+  height: 100vh;
   display: flex;
   flex-flow: column nowrap;
 }
 /* Review flex grandchildren pushing height
 https://stackoverflow.com/questions/51834332/why-doesnt-the-nested-flex-parent-height-grow-with-children */
 
-header {
-  padding: 0.5rem 1.5rem;
-  flex: 0 1 auto;
-  background-color: var(--highlight-background-color);
-  color: var(--highlight-text-color);
-}
-
 button {
   border: 0;
   border-radius: 0;
+  background-color: var(--action-background-color);
+  color: var(--highlight-text-color);
+}
+
+header {
+  padding: 1rem 2.5rem;
+  padding-bottom: 1.5rem;
+
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+
   background-color: var(--highlight-background-color);
   color: var(--highlight-text-color);
 }
 
-main {
-  padding: 2.5rem;
-  flex: 1 1 auto;
+header h1 {
+  font-family: var(--header-h1-font);
+  font-size: 3rem;
+  line-height: 1;
 }
 
-.builder {
-  display: flex;
-  flex-flow: row nowrap;
-  justify-content: space-around;
-  align-items: flex-end;
+.copy-link {
+  font-weight: bold;
+}
+
+main {
+  margin: 0 auto;
+  padding: 1.5rem 2.5rem;
+}
+
+main.builder {
+  display: grid;
+  grid-template-rows: auto;
+  grid-template-columns: minmax(400px, 900px) minmax(150px, 500px);
+  grid-template-areas: 'card toolkit';
 }
 
 .card {
-  margin: 0 2rem;
-  flex: 0 1 auto;
-  background-color: white;
+  grid-area: card;
+  /* max-height: 500px; */
+  max-width: 900px;
+  place-self: stretch center;
+
   display: grid;
   place-items: stretch;
-  grid-template-columns: minmax(200px, 1fr) 1fr;
-  grid-template-rows: repeat(2, minmax(200px, 50%)) [bottom];
+  grid-template-columns: minmax(400px, 1fr) minmax(200px, 1fr);
+  grid-template-rows: auto minmax(150px, 1fr) auto auto;
   grid-template-areas:
+    'top top'
     'left tr'
-    'left br';
+    'left br'
+    'left bttm';
+
+  background-color: white;
+  font-size: 1rem;
 }
 
-.photo {
-  padding: 1.5rem;
-  grid-area: left;
-  /* Use black mat? */
-  /* background-color: black; */
-  object-fit: contain;
+.note {
+  grid-area: br;
+  place-self: end end;
+
+  font-family: var(--message-font);
+  font-size: 1.2em;
+}
+
+.recipient {
+  margin: 1.5rem;
+}
+
+.message {
+  margin: 1.5rem;
+}
+
+.signature {
+  margin: -0.75rem 3rem 1rem 2rem;
+  grid-area: bttm;
+  place-self: end end;
+
+  font-family: var(--signature-font);
+  line-height: 1;
+  font-size: 1.5em;
+  text-align: right;
+}
+
+.sender {
+  font-size: 1.5em;
+  font-weight: bold;
+  white-space: pre;
+}
+
+.sender::before {
+  content: '\A';
 }
 
 .quote {
-  padding: 1.5rem;
-  /* grid-area: text; */
-  grid-row: 1 / bottom;
-  quotes: '“' '”';
-}
+  margin: 1.5rem;
+  grid-area: tr;
+  place-self: center stretch;
+  /* Occupy double height? */
+  /* grid-row: 1 / bottom; */
 
-.quote-text {
-  font-size: x-large;
-  line-height: 1.5;
+  font-family: var(--quote-font);
+  font-size: 1.25em;
+
+  quotes: '“' '”';
 }
 
 .quote-text::before {
   content: open-quote;
 }
-
 .quote-text::after {
   content: close-quote;
 }
 
 .author {
-  margin-top: 1rem;
-  font-size: larger;
   text-align: right;
 }
-
 .author::before {
   content: '~ ';
 }
 
+.photo {
+  margin: 1.5rem;
+  grid-area: left;
+  /* Use black mat? */
+  /* background-color: black; */
+  object-fit: cover;
+}
+
 .toolkit {
-  height: 100%;
-  margin-left: 2rem;
-  padding: 0.5rem;
-  flex: 0 0 auto;
+  margin-left: 2.5rem;
+  padding: 1rem;
+  grid-area: toolkit;
+  place-self: start center;
+
   display: grid;
   grid-template-columns: [start] repeat(3, auto) [end];
-  grid-auto-rows: minmax(3rem, auto);
+  grid-template-rows: auto;
   place-items: center;
   background-color: white;
 }
 
-/* .toolkit > * {
-  margin-top: 0.75rem;
-} */
+.toolkit > *:nth-child(n + 2) {
+  margin: 0.5rem 0;
+}
 
 .toolkit > button {
   place-items: stretch;
@@ -164,7 +227,7 @@ main {
   place-self: end center;
 } */
 
-.toolkit > .action-button {
+.action-button {
   font-weight: bold;
 }
 
