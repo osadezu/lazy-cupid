@@ -1,0 +1,182 @@
+@import url('https://fonts.googleapis.com/css2?family=Licorice&family=Lobster&family=Merienda+One&family=Montserrat:ital,wght@0,300;0,400;0,700;1,900&display=swap');
+
+:root {
+  --background-color: hsl(100, 35%, 90%);
+  --highlight-background-color: hsl(336, 80%, 50%);
+  --highlight-text-color: #f2ffe9;
+  --action-background-color: #557c55;
+
+  --text-color: slategray;
+
+  --body-font: 'Montserrat', sans-serif;
+  --header-h1-font: 'Lobster', cursive;
+  --header-h2-font: 'Montserrat', sans-serif;
+  --quote-font: 'Merienda One', cursive;
+  --signature-font: 'Licorice', cursive;
+  --message-font: 'Courier New', Courier, monospace;
+}
+
+body {
+  background-color: var(--background-color);
+  font-family: var(--body-font);
+}
+
+.app {
+  height: 100vh;
+  display: flex;
+  flex-flow: column nowrap;
+}
+
+header {
+  padding: 1rem 2.5rem;
+  padding-bottom: 1.5rem;
+
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: space-between;
+
+  background-color: var(--highlight-background-color);
+  color: var(--highlight-text-color);
+}
+
+header h1 {
+  font-family: var(--header-h1-font);
+  font-size: 3rem;
+  line-height: 1;
+}
+
+header h1 a:hover {
+  text-shadow: 0.15rem 0.15rem black;
+}
+
+h2 {
+  margin-bottom: 1.5rem;
+  font-family: var(--header-h2-font);
+}
+
+main {
+  margin: 0 auto;
+  padding: 3rem 2.5rem;
+}
+
+main.welcome,
+main.error {
+  max-width: 600px;
+  display: flex;
+  flex-flow: column nowrap;
+
+  text-align: center;
+  line-height: 1.5;
+  white-space: pre-wrap;
+}
+
+.build-link {
+  display: inline-block;
+  margin-top: 1.5rem;
+  font-weight: bold;
+}
+
+.build-link:hover {
+  color: var(--highlight-background-color);
+}
+
+.build-link::before {
+  content: '👉';
+  margin-right: 0.75rem;
+}
+
+.build-link::after {
+  content: '🍯';
+  margin-left: 0.5rem;
+}
+
+.error > .cardstock {
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+}
+
+.error-message button {
+  margin-top: 1.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.error-message button.concealed::after {
+  content: ' 🙈';
+}
+
+.error-message button.revealed::after {
+  content: ' 🙊';
+}
+
+.error-message > p {
+  font-size: smaller;
+  color: var(--highlight-background-color);
+}
+
+.broken-heart {
+  font-size: 3rem;
+  margin-bottom: 0;
+}
+
+main.builder {
+  display: grid;
+  grid-template-rows: auto;
+  grid-template-columns: minmax(400px, 900px) minmax(150px, 500px);
+  grid-template-areas: 'card toolkit';
+}
+
+main.retriever {
+  display: grid;
+  grid-template-rows: auto;
+  grid-template-columns: minmax(400px, 900px);
+  grid-template-areas: 'card';
+}
+
+.cardstock {
+  margin: 1rem;
+  padding: 1.5rem;
+  background-color: white;
+  box-shadow: 0.5rem 0.75rem 0.2rem rgb(0, 0, 0);
+}
+
+button {
+  border: 0;
+  border-radius: 0;
+  background-color: var(--action-background-color);
+  color: var(--highlight-text-color);
+  box-shadow: 0.15rem 0.15rem black;
+  -webkit-transform: translateY(-0.15rem);
+  transform: translateY(-0.15rem);
+}
+
+button.action-button {
+  font-weight: bold;
+}
+
+header .action-button {
+  margin-top: 0.2rem;
+  height: 2rem;
+  width: 7rem;
+}
+header .action-button:hover {
+  background-color: var(--highlight-text-color);
+  color: var(--highlight-background-color);
+}
+
+button:active {
+  box-shadow: 0.15rem 0 black;
+  -webkit-transform: translateY(0.15rem);
+  transform: translateY(0.15rem);
+}
+
+button.reveal-error {
+  font-size: smaller;
+  background-color: var(--background-color);
+  color: var(--action-background-color);
+}
+
+button:hover {
+  background-color: var(--highlight-background-color);
+}

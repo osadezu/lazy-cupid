@@ -1,0 +1,97 @@
+.card {
+  margin: 0;
+  padding: 0;
+  grid-area: card;
+  /* max-height: 500px; */
+  max-width: 900px;
+  place-self: start center;
+
+  display: grid;
+  place-items: stretch;
+  grid-template-columns: minmax(400px, 1fr) minmax(200px, 1fr);
+  grid-template-rows: auto minmax(150px, 1fr) auto auto;
+  grid-template-areas:
+    'top top'
+    'left tr'
+    'left br'
+    'left bttm';
+
+  font-size: 1rem;
+}
+
+.card * {
+  max-width: 100%;
+  white-space: pre-line;
+  overflow-wrap: break-word;
+}
+
+.note {
+  grid-area: br;
+  place-self: end end;
+
+  font-family: var(--message-font);
+  font-size: 1.2em;
+}
+
+.recipient,
+.message {
+  margin: 1.5rem;
+}
+
+.signature {
+  grid-area: bttm;
+  place-self: end end;
+
+  font-family: var(--signature-font);
+  line-height: 1;
+  font-size: 1.5em;
+  text-align: right;
+}
+
+.signature > p {
+  margin: -0.75rem 3rem 1rem 2rem;
+}
+
+.sender {
+  font-size: 1.5em;
+  font-weight: 500;
+}
+
+.sender::before {
+  /* Insert line break */
+  content: '\A';
+}
+
+.quote {
+  margin: 1.5rem;
+  grid-area: tr;
+  place-self: center stretch;
+
+  font-family: var(--quote-font);
+  font-size: 1.25em;
+
+  quotes: '“' '”';
+}
+
+.quote-text::before {
+  content: open-quote;
+}
+.quote-text::after {
+  content: close-quote;
+}
+
+.author {
+  text-align: right;
+}
+.author::before {
+  content: '~ ';
+}
+
+.photo {
+  margin: 1.5rem;
+  grid-area: left;
+  /* Use black mat? */
+  /* background-color: black; */
+  -o-object-fit: cover;
+  object-fit: cover;
+}
