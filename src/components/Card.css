@@ -3,6 +3,7 @@
   padding: 0;
   grid-area: card;
   /* max-height: 500px; */
+  min-height: 350px;
   max-width: 900px;
   place-self: start center;
 
