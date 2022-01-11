@@ -3,27 +3,7 @@ import { Link, Outlet, useLocation } from 'react-router-dom';
 
 import './App.css';
 
-const testDetails = {
-  recipient: 'Valen',
-  sender: 'Tine',
-  message: "I don't wanna wait!",
-  imageID: '595f280e557291a9750ebf9f',
-  imageAlt: 'cute cat',
-  quote: "Don't cry because it's over, smile because it happened.",
-  quoteAuthor: 'Dr. Seuss',
-};
-
-const initialDetails = {
-  // recipient: '',
-  // sender: '',
-  // message: '',
-  // imageID: '',
-  // imageAlt: '',
-  // quote: '',
-  // quoteAuthor: '',
-};
-
-//
+// Handle state for user's card customizations
 function detailsReducer(state, action) {
   switch (action.type) {
     case 'update-text':
@@ -96,6 +76,34 @@ function App() {
         )}
       </header>
       <Outlet context={{ appContext, details, detailsDispatch, setCopied }} />
+      <footer>
+        <p className='footer-text'>
+          This website comes unscented –{' '}
+          <a
+            href='https://github.com/osadezu/lazy-cupid'
+            target='_blank'
+            rel='noopener noreferrer'>
+            Go to GitHub Repo
+          </a>
+        </p>
+        <p className='acknowledge'>
+          Grateful shout-out to{' '}
+          <a
+            href='https://paperquotes.com/'
+            target='_blank'
+            rel='noopener noreferrer'>
+            PaperQuotes
+          </a>{' '}
+          and{' '}
+          <a
+            href='https://cataas.com/'
+            target='_blank'
+            rel='noopener noreferrer'>
+            Cataas
+          </a>{' '}
+          who provide the content for our cards.
+        </p>
+      </footer>
     </div>
   );
 }

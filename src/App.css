@@ -25,6 +25,14 @@ body {
   height: 100vh;
   display: flex;
   flex-flow: column nowrap;
+  justify-content: space-between;
+}
+
+header,
+footer {
+  padding: 1rem 2.5rem;
+  background-color: var(--highlight-background-color);
+  color: var(--highlight-text-color);
 }
 
 header {
@@ -35,9 +43,33 @@ header {
   flex-flow: row nowrap;
   align-items: center;
   justify-content: space-between;
+}
 
-  background-color: var(--highlight-background-color);
-  color: var(--highlight-text-color);
+footer {
+  flex: 0 0 auto;
+  justify-self: flex-end;
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+}
+
+footer > * {
+  margin-top: 0.25rem;
+  margin-bottom: 0.5rem;
+}
+
+.footer-text {
+  font-weight: bold;
+}
+.footer-text > a {
+  font-weight: bold;
+}
+
+footer .acknowledge {
+  font-size: smaller;
+}
+footer .acknowledge > a {
+  font-weight: bold;
 }
 
 header h1 {
@@ -46,7 +78,8 @@ header h1 {
   line-height: 1;
 }
 
-header h1 a:hover {
+header a:hover,
+footer a:hover {
   text-shadow: 0.15rem 0.15rem black;
 }
 
@@ -56,6 +89,7 @@ h2 {
 }
 
 main {
+  flex: 1 0 auto;
   margin: 0 auto;
   padding: 3rem 2.5rem;
 }
@@ -123,14 +157,14 @@ main.error {
 main.builder {
   display: grid;
   grid-template-rows: auto;
-  grid-template-columns: minmax(400px, 900px) minmax(150px, 500px);
+  grid-template-columns: minmax(400px, 700px) auto;
   grid-template-areas: 'card toolkit';
 }
 
 main.retriever {
   display: grid;
   grid-template-rows: auto;
-  grid-template-columns: minmax(400px, 900px);
+  grid-template-columns: minmax(400px, 700px);
   grid-template-areas: 'card';
 }
 

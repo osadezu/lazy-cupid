@@ -1,18 +1,17 @@
 .card {
-  margin: 0;
-  padding: 0;
-  grid-area: card;
-  /* max-height: 500px; */
   min-height: 350px;
   max-width: 900px;
+  margin: 0;
+  padding: 0;
+
+  grid-area: card;
   place-self: start center;
 
   display: grid;
   place-items: stretch;
-  grid-template-columns: minmax(400px, 1fr) minmax(200px, 1fr);
-  grid-template-rows: auto minmax(150px, 1fr) auto auto;
+  grid-template-columns: minmax(300px, 1fr) minmax(200px, 1fr);
+  grid-template-rows: minmax(150px, 1fr) auto auto;
   grid-template-areas:
-    'top top'
     'left tr'
     'left br'
     'left bttm';
