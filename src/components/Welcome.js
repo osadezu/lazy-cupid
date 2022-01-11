@@ -5,14 +5,12 @@ function Welcome(props) {
   return (
     <main className='welcome'>
       <div className='cardstock'>
-        <h2>Ok, let's make this quick!</h2>
+        <h2>Let's make this quick.</h2>
+        <p>These things are not for everyone, we get it.</p>
+        <p>Last minute situation? No problem!</p>
+        <p>We are here to help, and we got lots of kitties.</p>
         <Link to='/build' className='build-link'>
-          Pour some Honey.
-        </Link>
-      </div>
-      <div className='cardstock'>
-        <Link to='/oops/wrong-path' className='oops-link'>
-          Somebody sent you here?
+          Pour some honey
         </Link>
       </div>
     </main>

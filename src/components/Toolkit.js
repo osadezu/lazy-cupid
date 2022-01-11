@@ -84,7 +84,7 @@ function Toolkit({
         onChange={handleTextChange}
       />
       <button type='submit' name='done-building' className='wide action-button'>
-        Send some love!
+        Send love!
       </button>
     </form>
   );

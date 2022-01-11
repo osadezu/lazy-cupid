@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useOutletContext, useSearchParams } from 'react-router-dom';
 
 import Card from './Card';
 
 function Retriever(props) {
   // Get general app settings
-  const { appContext } = useOutletContext();
+  const { appContext, setCopied } = useOutletContext();
 
   // Load details from search query
   const details = {};
@@ -14,14 +14,17 @@ function Retriever(props) {
     details[key] = value;
   }
 
-  const imageBaseUrl = appContext.imagesAPIs[0].baseURL;
+  // Reset 'copy link' button in case user went back to build
+  useEffect(() => setCopied(false), []);
+
+  const imageBaseURL = appContext.imagesAPIs[0].imageBaseURL;
 
   return (
     <main className='retriever'>
       <Card
         cardDetails={{
           ...details,
-          imageSrc: `${imageBaseUrl}${details.imageID}`,
+          imageSrc: `${imageBaseURL}${details.imageID}`,
         }}
       />
     </main>

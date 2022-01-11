@@ -8,12 +8,10 @@ import {
 import Card from './Card';
 import Toolkit from './Toolkit';
 
-import { getQuotes, getCats } from '../data/staticData';
+// Load static data for testing/debugging
+// import { getQuotes, getCats } from '../data/staticData'
 
-// import Collection from './Collection'
-
-// TODO: Is this efficient or should this be refactored to use
-// an object like: { items[], chosenIndex } see Collection.js import
+// TODO: Refactor this to use collection[] + selection index variable
 function collectionReducer(state, action) {
   switch (action.type) {
     case 'next':
@@ -27,22 +25,87 @@ function collectionReducer(state, action) {
   }
 }
 
-function Builder(props) {
+function Builder() {
   // Get general app settings
   const { appContext, details, detailsDispatch } = useOutletContext();
-
-  // Content sources (For future addition of different choice APIs)
-  const imageBaseUrl = appContext.imagesAPIs[0].baseURL;
 
   // Hook to navigate to card preview when user is done building
   const navigate = useNavigate();
 
   // States and reduers for content collections
-  const [images, imageDispatch] = useReducer(collectionReducer, getCats());
-  const [quotes, quoteDispatch] = useReducer(collectionReducer, getQuotes());
+  const [images, imageDispatch] = useReducer(collectionReducer, {});
+  const [quotes, quoteDispatch] = useReducer(collectionReducer, {});
+
+  // Content sources (For future addition of different choice APIs)
+  const imageBaseURL = appContext.imagesAPIs[0].imageBaseURL;
+  const imageRequestRL = appContext.imagesAPIs[0].apiBaseURL;
+  const quoteRequestRL = appContext.quotesAPI.apiBaseURL;
+
+  useEffect(() => {
+    // TODO: Combine this logic into a single function that can fetch from both APIs
+    // and is reusable for loading additional content.
+
+    let results = 24;
+    let offset = Math.floor(Math.random() * 50); // For now provide a random offset for variety
+    let tags = 'cute';
+    let url = `${imageRequestRL}?tags=${tags}&skip=${offset}&limit=${results}`;
+    fetch(url)
+      .then((res) => {
+        // Get specifics if response is not ok
+        // console.log(res);
+        if (!res.ok) {
+          throw new Error(
+            `Could not fetch from ${url} ${res.status} ${res.statusText}`
+          );
+        }
+        return res;
+      })
+      .then((res) => res.json())
+      .then((res) => {
+        imageDispatch({ type: 'new', payload: res });
+      })
+      .catch((err) => {
+        navigate('/oops', {
+          state: { error: { type: 'api', payload: err } },
+        });
+      });
+
+    //  'https://api.paperquotes.com/apiv1/quotes/?tags=love,motivation,life&maxlength=100&limit=20&order=-likes',
+    results = 24;
+    offset = Math.floor(Math.random() * 50); // For now provide a random offset for variety
+    tags = 'love,motivation,life';
+    const maxLength = 120;
+    url = `${quoteRequestRL}?tags=${tags}&maxlength=${maxLength}&offset=${offset}&limit=${results}&order=-likes`;
+    fetch(url, {
+      headers: {
+        Authorization: `Token ${process.env.REACT_APP_PPQTS_TKN}`,
+      },
+    })
+      .then((res) => {
+        // Get specifics if response is not ok
+        // console.log(res);
+        if (!res.ok) {
+          throw new Error(
+            `Could not fetch from ${url} ${res.status} ${res.statusText}`
+          );
+        }
+        return res;
+      })
+      .then((res) => res.json())
+      .then((res) => {
+        quoteDispatch({ type: 'new', payload: res.results });
+      })
+      .catch((err) => {
+        navigate('/oops', {
+          state: { error: { type: 'api', payload: err } },
+        });
+      });
+  }, []);
 
   // Changes to content collections trigger updating selections details
   useEffect(() => {
+    if (!images.length || !quotes.length) return; // Wait until collections have been loaded.
+
     detailsDispatch({
       type: 'update-content',
       payload: {
@@ -66,19 +129,7 @@ function Builder(props) {
       },
       { state: { senderView: true } }
     );
-    // setCardLink(
-    //   resolvePath({
-    //     pathname: '/show',
-    //     search: createSearchParams(details).toString(),
-    //   })
-    // );
   }
-
-  // const url = useHref({
-  //   pathname: '/show',
-  //   search: createSearchParams(details).toString(),
-  // });
-  // console.log(url);
 
   // TODO: Prevent form from being submitted on Enter
   // function preventEnterSubmit() {}
@@ -111,7 +162,7 @@ function Builder(props) {
       <Card
         cardDetails={{
           ...details,
-          imageSrc: `${imageBaseUrl}${details.imageID}`,
+          imageSrc: `${imageBaseURL}${details.imageID}`,
         }}
       />
       <Toolkit

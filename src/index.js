@@ -17,7 +17,7 @@ ReactDOM.render(
         <Route index element={<Welcome />} />
         <Route path='build' element={<Builder />} />
         <Route path='show' element={<Retriever />} />
-        <Route path='oops' element={<Error />}></Route>
+        <Route path='oops' element={<Error />} />
         <Route path='*' element={<Error />} />
       </Route>
     </Routes>

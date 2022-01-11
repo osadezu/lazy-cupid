@@ -45,6 +45,11 @@
   margin-bottom: -0.25rem;
 }
 
+.toolkit > input::placeholder,
+.toolkit > textarea::placeholder {
+  text-align: center;
+}
+
 .toolkit > .text-button {
   width: auto;
   border: none;

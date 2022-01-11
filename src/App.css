@@ -1,10 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Licorice&family=Lobster&family=Merienda+One&family=Montserrat:ital,wght@0,300;0,400;0,700;1,900&display=swap');
 
 :root {
-  /* --background-color: rgb(196, 169, 250);
-  --highlight-background-color: mediumslateblue;
-  --highlight-text-color: gold; */
-
   --background-color: hsl(100, 35%, 90%);
   --highlight-background-color: hsl(336, 80%, 50%);
   --highlight-text-color: #f2ffe9;
@@ -30,8 +26,6 @@ body {
   display: flex;
   flex-flow: column nowrap;
 }
-/* Review flex grandchildren pushing height
-https://stackoverflow.com/questions/51834332/why-doesnt-the-nested-flex-parent-height-grow-with-children */
 
 header {
   padding: 1rem 2.5rem;
@@ -39,6 +33,7 @@ header {
 
   display: flex;
   flex-flow: row nowrap;
+  align-items: center;
   justify-content: space-between;
 
   background-color: var(--highlight-background-color);
@@ -51,8 +46,8 @@ header h1 {
   line-height: 1;
 }
 
-.copy-link {
-  font-weight: bold;
+header h1 a:hover {
+  text-shadow: 0.15rem 0.15rem black;
 }
 
 h2 {
@@ -62,12 +57,28 @@ h2 {
 
 main {
   margin: 0 auto;
-  padding: 1.5rem 2.5rem;
+  padding: 3rem 2.5rem;
 }
 
-main.welcome {
+main.welcome,
+main.error {
+  max-width: 600px;
   display: flex;
   flex-flow: column nowrap;
+
+  text-align: center;
+  line-height: 1.5;
+  white-space: pre-wrap;
+}
+
+.build-link {
+  display: inline-block;
+  margin-top: 1.5rem;
+  font-weight: bold;
+}
+
+.build-link:hover {
+  color: var(--highlight-background-color);
 }
 
 .build-link::before {
@@ -75,9 +86,38 @@ main.welcome {
   margin-right: 0.75rem;
 }
 
-.oops-link::before {
-  content: '💝';
-  margin-right: 0.75rem;
+.build-link::after {
+  content: '🍯';
+  margin-left: 0.5rem;
+}
+
+.error > .cardstock {
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+}
+
+.error-message button {
+  margin-top: 1.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.error-message button.concealed::after {
+  content: ' 🙈';
+}
+
+.error-message button.revealed::after {
+  content: ' 🙊';
+}
+
+.error-message > p {
+  font-size: smaller;
+  color: var(--highlight-background-color);
+}
+
+.broken-heart {
+  font-size: 3rem;
+  margin-bottom: 0;
 }
 
 main.builder {
@@ -107,16 +147,34 @@ button {
   background-color: var(--action-background-color);
   color: var(--highlight-text-color);
   box-shadow: 0.15rem 0.15rem black;
+  -webkit-transform: translateY(-0.15rem);
   transform: translateY(-0.15rem);
 }
 
-.action-button {
+button.action-button {
   font-weight: bold;
+}
+
+header .action-button {
+  margin-top: 0.2rem;
+  height: 2rem;
+  width: 7rem;
+}
+header .action-button:hover {
+  background-color: var(--highlight-text-color);
+  color: var(--highlight-background-color);
 }
 
 button:active {
   box-shadow: 0.15rem 0 black;
+  -webkit-transform: translateY(0.15rem);
   transform: translateY(0.15rem);
+}
+
+button.reveal-error {
+  font-size: smaller;
+  background-color: var(--background-color);
+  color: var(--action-background-color);
 }
 
 button:hover {
