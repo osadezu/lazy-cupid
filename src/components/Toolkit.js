@@ -74,14 +74,14 @@ function Toolkit({
         value={details.message || ''}
         onChange={handleTextChange}></textarea>
       <label htmlFor='sender' className='wide'>
-        And who should we say sent it?
+        And who sends it?
       </label>
       <input
         type='text'
         id='sender'
         name='sender'
         className='wide'
-        placeholder='you in your shining armor'
+        placeholder='in your shining armor'
         value={details.sender || ''}
         onChange={handleTextChange}
       />

@@ -15,9 +15,9 @@ import Toolkit from './Toolkit';
 function collectionReducer(state, action) {
   switch (action.type) {
     case 'next':
-      return [...state.slice(1), state[0]];
+      return [...state.slice(1), state[0]]; // Replace with index increase
     case 'prev':
-      return [...state.slice(-1), ...state.slice(0, -1)];
+      return [...state.slice(-1), ...state.slice(0, -1)]; // Replace with index decrease
     case 'new':
       return [...action.payload];
     default:
@@ -70,7 +70,6 @@ function Builder() {
         });
       });
 
-    //  'https://api.paperquotes.com/apiv1/quotes/?tags=love,motivation,life&maxlength=100&limit=20&order=-likes',
     results = 24;
     offset = Math.floor(Math.random() * 50); // For now provide a random offset for variety
     tags = 'love,motivation,life';
