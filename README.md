@@ -9,6 +9,7 @@ The user is given several options to customize a greeting card, including conten
 https://lazy-cupid.netlify.app/
 
 ## App Screenshot
+<img width="1301" alt="20220111 Lazy Cupid screenshot" src="https://user-images.githubusercontent.com/24361930/148898075-44cffc2f-dffb-4476-88bb-01549c21fcf1.png">
 
 ## Technologies used
 
