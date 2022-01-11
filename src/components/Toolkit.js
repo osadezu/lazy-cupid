@@ -32,6 +32,7 @@ function Toolkit({
         type='button'
         name='image'
         className='text-button'
+        disabled
         onClick={() => handleSelection('image', 'more')}>
         more cats
       </button>
@@ -51,6 +52,7 @@ function Toolkit({
         type='button'
         id='quote'
         className='text-button'
+        disabled
         onClick={() => handleSelection('quote', 'more')}>
         more quotes
       </button>
