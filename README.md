@@ -8,6 +8,14 @@ The user is given several options to customize a greeting card, including conten
 
 https://lazy-cupid.netlify.app/
 
+### Getting Started
+
+- The app is used online in a browser running Javascript, no need to install anything!
+- Or you can get your own copy:
+  - Fork this repopsitory
+  - Clone it to your computer
+  - use 'npm i' to install dependencies and 'npm start' to use a React development build 
+
 ## App Screenshot
 <img width="1301" alt="20220111 Lazy Cupid screenshot" src="https://user-images.githubusercontent.com/24361930/148898075-44cffc2f-dffb-4476-88bb-01549c21fcf1.png">
 
@@ -18,20 +26,20 @@ https://lazy-cupid.netlify.app/
 - [Browser Router](https://reactrouter.com/)
 - Authenticated API requests (HTTP over TLS)
 
-## Next Steps
-
-- Refactor API calls to organize in modular functions that enable subsequent calls to add content to collections.
-- Improve app logic to preserve states when returning from card preview to builder.
-- Perform validation of search parameters when loading shared link to verify that the minimum components are present and no apparent errors are found.
-- Use Protocol Buffers to compress url search parameters and obscure details.
-- Add more customization options like images from a different API and
-
 ### Acknowledgement
 
 The following APIs provide the greeting card content:
 
 - [Paper Quotes](https://paperquotes.com/)
 - [Cataas](https://cataas.com/)
+
+## Next Steps
+
+- Refactor API calls to organize in modular functions that enable subsequent calls to add content to collections.
+- Improve app logic to preserve states when returning from card preview to builder.
+- Perform validation of search parameters when loading shared link to verify that the minimum components are present and no apparent errors are found.
+- Use Protocol Buffers to compress url search parameters and obscure details.
+- Add more customization options like images from a different API and selectors for image fit andbackground color.
 
 ## User Stories
 
