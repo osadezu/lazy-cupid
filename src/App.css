@@ -193,7 +193,6 @@ button.action-button {
 header .action-button {
   margin-top: 0.2rem;
   height: 2rem;
-  width: 7rem;
 }
 header .action-button:hover {
   background-color: var(--highlight-text-color);
