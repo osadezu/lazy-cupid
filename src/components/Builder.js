@@ -7,12 +7,30 @@ import {
 
 import Card from './Card';
 import Toolkit from './Toolkit';
+import Collection from './Collection';
 
 // Load static data for testing/debugging
 // import { getQuotes, getCats } from '../data/staticData'
 
+function collectionReducer(collection, action) {
+  console.log(collection);
+  switch (action.type) {
+    case 'next':
+      collection.next();
+      return collection;
+    case 'prev':
+      collection.prev();
+      return collection;
+    case 'new':
+      collection.append(action.payload);
+      return collection;
+    default:
+      return collection; // do nothing
+  }
+}
+
 // TODO: Refactor this to use collection[] + selection index variable
-function collectionReducer(state, action) {
+function oldCollectionReducer(state, action) {
   switch (action.type) {
     case 'next':
       return [...state.slice(1), state[0]]; // Replace with index increase
@@ -32,9 +50,22 @@ function Builder() {
   // Hook to navigate to card preview when user is done building
   const navigate = useNavigate();
 
+  // Initialize images collection including previous choice from details
+  // (in case user hit 'back' from Retriever)
+  function initImages() {
+    let initialItem = null;
+    if (details.imageID && details.imageAlt) {
+      // make tags array from string, but exclude last word ('cat');
+      const tags = details.imageAlt.split(' ').slice(0, -1);
+      initialItem = { id: details.imageID, tags: tags };
+    }
+    return new Collection(initialItem);
+  }
+
   // States and reduers for content collections
-  const [images, imageDispatch] = useReducer(collectionReducer, {});
-  const [quotes, quoteDispatch] = useReducer(collectionReducer, {});
+  const [images, imageDispatch] = useReducer(collectionReducer, initImages());
+  // const [images, imageDispatch] = useReducer(oldCollectionReducer, []);
+  const [quotes, quoteDispatch] = useReducer(oldCollectionReducer, []);
 
   // Content sources (For future addition of different choice APIs)
   const imageBaseURL = appContext.imagesAPIs[0].imageBaseURL;
@@ -103,14 +134,18 @@ function Builder() {
 
   // Changes to content collections trigger updating selections details
   useEffect(() => {
-    if (!images.length || !quotes.length) return; // Wait until collections have been loaded.
+    // Wait until collections have been loaded.
+    if (!images || !images.items.length || !quotes.length) return;
+
+    // Copy collection item pointed by collection selector
+    const imageChoice = images.choice;
 
     detailsDispatch({
       type: 'update-content',
       payload: {
-        imageID: images[0].id,
-        imageAlt: images[0].tags.length
-          ? images[0].tags.join(' ') + 'cat'
+        imageID: imageChoice.id,
+        imageAlt: imageChoice.tags.length
+          ? imageChoice.tags.join(' ') + ' cat'
           : 'cute cat',
         quote: quotes[0].quote,
         quoteAuthor: quotes[0].author,

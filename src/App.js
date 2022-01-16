@@ -28,7 +28,7 @@ function App() {
         apiBaseURL: 'https://cataas.com/api/cats',
         imageBaseURL: 'https://cataas.com/cat/',
       },
-      { type: 'flowers', baseURL: 'XXX' },
+      { type: 'flowers', baseURL: 'XXX' }, // For future API choices
     ],
     quotesAPI: {
       apiSampleURL:
