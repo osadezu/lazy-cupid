@@ -5,6 +5,7 @@ import {
   createSearchParams,
   useNavigate,
 } from 'react-router-dom';
+import { allImageProviders, paperQuotes } from '../providers';
 
 import Card from './Card';
 import Toolkit from './Toolkit';
@@ -69,30 +70,21 @@ function Builder() {
 
   // Content sources (For future addition of different choice APIs)
   const imageBaseURL = appContext.imagesAPIs[0].imageBaseURL;
-  const imageRequestURL = appContext.imagesAPIs[0].apiBaseURL;
   const quoteRequestURL = appContext.quotesAPI.apiBaseURL;
 
   useEffect(() => {
+    let mounted = true;
     // TODO: Combine this logic into a single function that can fetch from both APIs
     // and is reusable for loading additional content.
 
-    let results = 24;
-    let offset = Math.floor(Math.random() * 50); // For now provide a random offset for variety
-    let tags = 'cute';
-    let url = `${imageRequestURL}?tags=${tags}&skip=${offset}&limit=${results}`;
-    fetch(url)
+    allImageProviders
+      .fetch('cats')
       .then((res) => {
-        // Get specifics if response is not ok
-        // console.log(res);
-        if (!res.ok) {
-          throw new Error(
-            `Could not fetch from ${url} ${res.status} ${res.statusText}`
-          );
+        // exit early when unmounted
+        if (!mounted) {
+          return;
         }
-        return res;
-      })
-      .then((res) => res.json())
-      .then((res) => {
+        // component is still mounted
         let index = res.findIndex((v) => v?.id === details?.imageID);
         if (index === -1) {
           index = 0;
@@ -114,28 +106,14 @@ function Builder() {
         });
       });
 
-    results = 24;
-    offset = Math.floor(Math.random() * 50); // For now provide a random offset for variety
-    tags = 'love,motivation,life';
-    const maxLength = 120;
-    url = `${quoteRequestURL}?tags=${tags}&maxlength=${maxLength}&offset=${offset}&limit=${results}&order=-likes`;
-    fetch(url, {
-      headers: {
-        Authorization: `Token ${process.env.REACT_APP_PPQTS_TKN}`,
-      },
-    })
+    paperQuotes
+      .fetch()
       .then((res) => {
-        // Get specifics if response is not ok
-        // console.log(res);
-        if (!res.ok) {
-          throw new Error(
-            `Could not fetch from ${url} ${res.status} ${res.statusText}`
-          );
+        // exit early when unmounted
+        if (!mounted) {
+          return;
         }
-        return res;
-      })
-      .then((res) => res.json())
-      .then((res) => {
+        // component is still mounted
         quoteDispatch({ type: 'new', payload: res.results });
       })
       .catch((err) => {
@@ -143,6 +121,10 @@ function Builder() {
           state: { error: { type: 'api', payload: err } },
         });
       });
+
+    return () => {
+      mounted = false;
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
