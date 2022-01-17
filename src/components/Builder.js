@@ -1,4 +1,5 @@
-import { useEffect, useReducer } from 'react';
+// eslint-disable react-hooks/exhaustive-deps
+import { useEffect, useMemo, useReducer } from 'react';
 import {
   useOutletContext,
   createSearchParams,
@@ -7,25 +8,35 @@ import {
 
 import Card from './Card';
 import Toolkit from './Toolkit';
-import Collection from './Collection';
 
 // Load static data for testing/debugging
 // import { getQuotes, getCats } from '../data/staticData'
 
-function collectionReducer(collection, action) {
-  console.log(collection);
+function listReducer(state, action) {
+  state = state ? state : { index: 0, items: [], choice: undefined };
+
   switch (action.type) {
-    case 'next':
-      collection.next();
-      return collection;
-    case 'prev':
-      collection.prev();
-      return collection;
+    case 'next': {
+      const index = (state.index + 1) % state.items.length;
+      return { ...state, index, choice: state.items[index] };
+    }
+
+    case 'prev': {
+      const index = state.index > 0 ? state.index - 1 : state.items.length - 1;
+      return { ...state, index, choice: state.items[index] };
+    }
+
     case 'new':
-      collection.append(action.payload);
-      return collection;
+      const index = action.index != null ? action.index : state.index;
+      const items = Array.isArray(action.payload)
+        ? [...state.items, ...action.payload]
+        : [...state.items, action.payload];
+      const choice = items[index];
+
+      return { ...state, index, items, choice };
+
     default:
-      return collection; // do nothing
+      return state; // do nothing
   }
 }
 
@@ -50,27 +61,16 @@ function Builder() {
   // Hook to navigate to card preview when user is done building
   const navigate = useNavigate();
 
-  // Initialize images collection including previous choice from details
-  // (in case user hit 'back' from Retriever)
-  function initImages() {
-    let initialItem = null;
-    if (details.imageID && details.imageAlt) {
-      // make tags array from string, but exclude last word ('cat');
-      const tags = details.imageAlt.split(' ').slice(0, -1);
-      initialItem = { id: details.imageID, tags: tags };
-    }
-    return new Collection(initialItem);
-  }
-
   // States and reduers for content collections
-  const [images, imageDispatch] = useReducer(collectionReducer, initImages());
+  // const [images, imageDispatch] = useReducer(collectionReducer, initImages());
+  const [images, imageDispatch] = useReducer(listReducer);
   // const [images, imageDispatch] = useReducer(oldCollectionReducer, []);
   const [quotes, quoteDispatch] = useReducer(oldCollectionReducer, []);
 
   // Content sources (For future addition of different choice APIs)
   const imageBaseURL = appContext.imagesAPIs[0].imageBaseURL;
-  const imageRequestRL = appContext.imagesAPIs[0].apiBaseURL;
-  const quoteRequestRL = appContext.quotesAPI.apiBaseURL;
+  const imageRequestURL = appContext.imagesAPIs[0].apiBaseURL;
+  const quoteRequestURL = appContext.quotesAPI.apiBaseURL;
 
   useEffect(() => {
     // TODO: Combine this logic into a single function that can fetch from both APIs
@@ -79,7 +79,7 @@ function Builder() {
     let results = 24;
     let offset = Math.floor(Math.random() * 50); // For now provide a random offset for variety
     let tags = 'cute';
-    let url = `${imageRequestRL}?tags=${tags}&skip=${offset}&limit=${results}`;
+    let url = `${imageRequestURL}?tags=${tags}&skip=${offset}&limit=${results}`;
     fetch(url)
       .then((res) => {
         // Get specifics if response is not ok
@@ -93,7 +93,20 @@ function Builder() {
       })
       .then((res) => res.json())
       .then((res) => {
-        imageDispatch({ type: 'new', payload: res });
+        let index = res.findIndex((v) => v?.id === details?.imageID);
+        if (index === -1) {
+          index = 0;
+          res = !details?.imageID
+            ? res
+            : [
+                {
+                  id: details.imageID,
+                  tags: details.imageAlt.split(' ').slice(0, -1),
+                },
+                ...res,
+              ];
+        }
+        imageDispatch({ type: 'new', index, payload: res });
       })
       .catch((err) => {
         navigate('/oops', {
@@ -105,7 +118,7 @@ function Builder() {
     offset = Math.floor(Math.random() * 50); // For now provide a random offset for variety
     tags = 'love,motivation,life';
     const maxLength = 120;
-    url = `${quoteRequestRL}?tags=${tags}&maxlength=${maxLength}&offset=${offset}&limit=${results}&order=-likes`;
+    url = `${quoteRequestURL}?tags=${tags}&maxlength=${maxLength}&offset=${offset}&limit=${results}&order=-likes`;
     fetch(url, {
       headers: {
         Authorization: `Token ${process.env.REACT_APP_PPQTS_TKN}`,
@@ -130,28 +143,33 @@ function Builder() {
           state: { error: { type: 'api', payload: err } },
         });
       });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    // console.log('log', { details });
+  }, [details]);
 
   // Changes to content collections trigger updating selections details
   useEffect(() => {
+    console.log({ images, quotes });
     // Wait until collections have been loaded.
-    if (!images || !images.items.length || !quotes.length) return;
-
-    // Copy collection item pointed by collection selector
-    const imageChoice = images.choice;
+    if (!images?.choice || !quotes?.length) return;
 
     detailsDispatch({
       type: 'update-content',
       payload: {
-        imageID: imageChoice.id,
-        imageAlt: imageChoice.tags.length
-          ? imageChoice.tags.join(' ') + ' cat'
+        imageID: images.choice.id,
+        imageAlt: images.choice.tags.length
+          ? images.choice.tags.join(' ') + ' cat'
           : 'cute cat',
         quote: quotes[0].quote,
         quoteAuthor: quotes[0].author,
       },
     });
-  }, [detailsDispatch, images, quotes]);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [images?.choice, quotes?.[0]]);
 
   // When user is done, preview card and generate URL
   function handleSubmit(event) {
