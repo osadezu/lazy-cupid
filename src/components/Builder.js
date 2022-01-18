@@ -5,6 +5,7 @@ import {
   createSearchParams,
   useNavigate,
 } from 'react-router-dom';
+import { useListReducer } from '../hooks/useListReducer';
 import { allImageProviders, paperQuotes } from '../providers';
 
 import Card from './Card';
@@ -12,34 +13,6 @@ import Toolkit from './Toolkit';
 
 // Load static data for testing/debugging
 // import { getQuotes, getCats } from '../data/staticData'
-
-function listReducer(state, action) {
-  state = state ? state : { index: 0, items: [], choice: undefined };
-
-  switch (action.type) {
-    case 'next': {
-      const index = (state.index + 1) % state.items.length;
-      return { ...state, index, choice: state.items[index] };
-    }
-
-    case 'prev': {
-      const index = state.index > 0 ? state.index - 1 : state.items.length - 1;
-      return { ...state, index, choice: state.items[index] };
-    }
-
-    case 'new':
-      const index = action.index != null ? action.index : state.index;
-      const items = Array.isArray(action.payload)
-        ? [...state.items, ...action.payload]
-        : [...state.items, action.payload];
-      const choice = items[index];
-
-      return { ...state, index, items, choice };
-
-    default:
-      return state; // do nothing
-  }
-}
 
 // TODO: Refactor this to use collection[] + selection index variable
 function oldCollectionReducer(state, action) {
@@ -64,7 +37,7 @@ function Builder() {
 
   // States and reduers for content collections
   // const [images, imageDispatch] = useReducer(collectionReducer, initImages());
-  const [images, imageDispatch] = useReducer(listReducer);
+  const [images, imageDispatch] = useListReducer();
   // const [images, imageDispatch] = useReducer(oldCollectionReducer, []);
   const [quotes, quoteDispatch] = useReducer(oldCollectionReducer, []);
 
