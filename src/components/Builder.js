@@ -1,4 +1,4 @@
-import { useEffect, useReducer } from 'react';
+import { useEffect } from 'react';
 import {
   useOutletContext,
   createSearchParams,
@@ -102,7 +102,6 @@ function Builder() {
 
   // Changes to content collections trigger updating selections details
   useEffect(() => {
-    console.log({ images, quotes });
     // Wait until collections have been loaded.
     if (!images?.choice || !quotes?.choice) return;
 
@@ -117,7 +116,6 @@ function Builder() {
         quoteAuthor: quotes.choice.author,
       },
     });
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [images?.choice, quotes?.choice]);
 
@@ -159,7 +157,6 @@ function Builder() {
     }
   }
 
-  console.log('render', { details });
   return (
     <>
       <main className='builder'>
