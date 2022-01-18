@@ -5,10 +5,10 @@ export const cataas = {
     imageBaseURL: 'https://cataas.com/cat/',
   },
   async fetch(options) {
-    let limit = options?.limit ?? 24;
-    let offset = Math.floor(Math.random() * 50); // For now provide a random offset for variety
-    let tags = 'cute';
-    let url = `${cataas.config.apiBaseURL}?tags=${tags}&skip=${offset}&limit=${limit}`;
+    const limit = options?.limit ?? 24;
+    const offset = Math.floor(Math.random() * 50); // For now provide a random offset for variety
+    const tags = 'cute';
+    const url = `${cataas.config.apiBaseURL}?tags=${tags}&skip=${offset}&limit=${limit}`;
 
     const response = await fetch(url);
     // Report specifics if response is not ok

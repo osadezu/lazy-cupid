@@ -1,3 +1,3 @@
-export * from './all-image-providers';
+export * from './allImageProviders';
 export * from './cataas';
 export * from './paperQuotes';

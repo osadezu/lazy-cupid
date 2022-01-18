@@ -5,7 +5,7 @@ export const paperQuotes = {
     apiBaseURL: 'https://api.paperquotes.com/apiv1/quotes/',
   },
   async fetch(options) {
-    const results = 24;
+    const results = options?.results ?? 24;
     const offset = Math.floor(Math.random() * 50); // For now provide a random offset for variety
     const tags = 'love,motivation,life';
     const maxLength = 120;
