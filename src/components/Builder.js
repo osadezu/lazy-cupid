@@ -1,68 +1,71 @@
-import { useEffect, useReducer } from 'react';
+import { useEffect } from 'react';
 import {
   useOutletContext,
   createSearchParams,
   useNavigate,
 } from 'react-router-dom';
+import { Helmet } from 'react-helmet';
+
+import { useListReducer } from '../hooks/useListReducer';
+import { cataas, paperQuotes } from '../providers';
 
 import Card from './Card';
 import Toolkit from './Toolkit';
 
-// Load static data for testing/debugging
-// import { getQuotes, getCats } from '../data/staticData'
-
-// TODO: Refactor this to use collection[] + selection index variable
-function collectionReducer(state, action) {
-  switch (action.type) {
-    case 'next':
-      return [...state.slice(1), state[0]]; // Replace with index increase
-    case 'prev':
-      return [...state.slice(-1), ...state.slice(0, -1)]; // Replace with index decrease
-    case 'new':
-      return [...action.payload];
-    default:
-      return state; // do nothing
-  }
-}
-
 function Builder() {
   // Get general app settings
-  const { appContext, details, detailsDispatch } = useOutletContext();
+  const { details, detailsDispatch } = useOutletContext();
 
   // Hook to navigate to card preview when user is done building
   const navigate = useNavigate();
 
-  // States and reduers for content collections
-  const [images, imageDispatch] = useReducer(collectionReducer, {});
-  const [quotes, quoteDispatch] = useReducer(collectionReducer, {});
-
-  // Content sources (For future addition of different choice APIs)
-  const imageBaseURL = appContext.imagesAPIs[0].imageBaseURL;
-  const imageRequestRL = appContext.imagesAPIs[0].apiBaseURL;
-  const quoteRequestRL = appContext.quotesAPI.apiBaseURL;
+  // States and reducers for content collections
+  const [images, imageDispatch] = useListReducer();
+  const [quotes, quoteDispatch] = useListReducer();
 
   useEffect(() => {
-    // TODO: Combine this logic into a single function that can fetch from both APIs
-    // and is reusable for loading additional content.
+    let mounted = true;
 
-    let results = 24;
-    let offset = Math.floor(Math.random() * 50); // For now provide a random offset for variety
-    let tags = 'cute';
-    let url = `${imageRequestRL}?tags=${tags}&skip=${offset}&limit=${results}`;
-    fetch(url)
+    // Initialize images with retained state from details
+    if (details?.imageID) {
+      imageDispatch({
+        type: 'append',
+        payload: [
+          {
+            id: details.imageID,
+            tags: details.imageAlt.split(' ').slice(0, -1),
+          },
+        ],
+      });
+    }
+
+    // Initialize quotes with retained state from details
+    if (details?.quote) {
+      quoteDispatch({
+        type: 'append',
+        payload: [
+          {
+            quote: details.quote,
+            author: details.quoteAuthor,
+          },
+        ],
+      });
+    }
+
+    // Fetch content from images provider
+    cataas
+      .fetch()
       .then((res) => {
-        // Get specifics if response is not ok
-        // console.log(res);
-        if (!res.ok) {
-          throw new Error(
-            `Could not fetch from ${url} ${res.status} ${res.statusText}`
-          );
+        // exit early when unmounted
+        if (!mounted) {
+          return;
         }
-        return res;
-      })
-      .then((res) => res.json())
-      .then((res) => {
-        imageDispatch({ type: 'new', payload: res });
+        // component is still mounted
+        imageDispatch({
+          type: 'append',
+          payload: res,
+          identifier: (item) => item.id,
+        });
       })
       .catch((err) => {
         navigate('/oops', {
@@ -70,53 +73,51 @@ function Builder() {
         });
       });
 
-    results = 24;
-    offset = Math.floor(Math.random() * 50); // For now provide a random offset for variety
-    tags = 'love,motivation,life';
-    const maxLength = 120;
-    url = `${quoteRequestRL}?tags=${tags}&maxlength=${maxLength}&offset=${offset}&limit=${results}&order=-likes`;
-    fetch(url, {
-      headers: {
-        Authorization: `Token ${process.env.REACT_APP_PPQTS_TKN}`,
-      },
-    })
+    // Fetch content from quotes provider
+    paperQuotes
+      .fetch()
       .then((res) => {
-        // Get specifics if response is not ok
-        // console.log(res);
-        if (!res.ok) {
-          throw new Error(
-            `Could not fetch from ${url} ${res.status} ${res.statusText}`
-          );
+        // exit early when unmounted
+        if (!mounted) {
+          return;
         }
-        return res;
-      })
-      .then((res) => res.json())
-      .then((res) => {
-        quoteDispatch({ type: 'new', payload: res.results });
+        // component is still mounted
+        quoteDispatch({
+          type: 'append',
+          payload: res.results,
+          identifier: (item) => item.quote,
+        });
       })
       .catch((err) => {
         navigate('/oops', {
           state: { error: { type: 'api', payload: err } },
         });
       });
+
+    return () => {
+      mounted = false;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Changes to content collections trigger updating selections details
   useEffect(() => {
-    if (!images.length || !quotes.length) return; // Wait until collections have been loaded.
+    // Wait until collections have been loaded.
+    if (!images?.choice || !quotes?.choice) return;
 
     detailsDispatch({
       type: 'update-content',
       payload: {
-        imageID: images[0].id,
-        imageAlt: images[0].tags.length
-          ? images[0].tags.join(' ') + 'cat'
+        imageID: images.choice.id,
+        imageAlt: images.choice.tags.length
+          ? images.choice.tags.join(' ') + ' cat'
           : 'cute cat',
-        quote: quotes[0].quote,
-        quoteAuthor: quotes[0].author,
+        quote: quotes.choice.quote,
+        quoteAuthor: quotes.choice.author,
       },
     });
-  }, [detailsDispatch, images, quotes]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [images?.choice, quotes?.choice]);
 
   // When user is done, preview card and generate URL
   function handleSubmit(event) {
@@ -157,20 +158,36 @@ function Builder() {
   }
 
   return (
-    <main className='builder'>
-      <Card
-        cardDetails={{
-          ...details,
-          imageSrc: `${imageBaseURL}${details.imageID}`,
-        }}
-      />
-      <Toolkit
-        handleSubmit={handleSubmit}
-        handleTextChange={handleTextChange}
-        handleSelection={handleSelection}
-        details={details}
-      />
-    </main>
+    <>
+      <main className='builder'>
+        <Card
+          cardDetails={{
+            ...details,
+            imageSrc: `${cataas.config.imageBaseURL}${details.imageID}`,
+          }}
+        />
+        <Toolkit
+          handleSubmit={handleSubmit}
+          handleTextChange={handleTextChange}
+          handleSelection={handleSelection}
+          details={details}
+        />
+      </main>
+      {
+        // preload images for faster app
+        <Helmet>
+          {images?.items.map((image) => (
+            <link
+              key={image.id}
+              crossorigin='anonymous'
+              rel='prefetch'
+              as='image'
+              href={`${cataas.config.imageBaseURL}${image.id}`}
+            />
+          ))}
+        </Helmet>
+      }
+    </>
   );
 }
 

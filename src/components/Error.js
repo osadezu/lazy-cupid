@@ -14,7 +14,7 @@ function Error() {
   return (
     <main className='error'>
       <div className='cardstock'>
-        <h2 className='broken-heart'>💔</h2>
+        <h2 className='hero-emoji'>💔</h2>
         <h2>It's not you, it's us!</h2>
         <p>
           {/* Display error passed in state or default */}
