@@ -5,6 +5,8 @@ import {
   createSearchParams,
   useNavigate,
 } from 'react-router-dom';
+import { Helmet } from 'react-helmet';
+
 import { useListReducer } from '../hooks/useListReducer';
 import { cataas, paperQuotes } from '../providers';
 
@@ -158,20 +160,36 @@ function Builder() {
 
   console.log('render', { details });
   return (
-    <main className='builder'>
-      <Card
-        cardDetails={{
-          ...details,
-          imageSrc: `${cataas.config.imageBaseURL}${details.imageID}`,
-        }}
-      />
-      <Toolkit
-        handleSubmit={handleSubmit}
-        handleTextChange={handleTextChange}
-        handleSelection={handleSelection}
-        details={details}
-      />
-    </main>
+    <>
+      <main className='builder'>
+        <Card
+          cardDetails={{
+            ...details,
+            imageSrc: `${cataas.config.imageBaseURL}${details.imageID}`,
+          }}
+        />
+        <Toolkit
+          handleSubmit={handleSubmit}
+          handleTextChange={handleTextChange}
+          handleSelection={handleSelection}
+          details={details}
+        />
+      </main>
+      {
+        // preload images for faster app
+        <Helmet>
+          {images?.items.map((image) => (
+            <link
+              key={image.id}
+              crossorigin='anonymous'
+              rel='prefetch'
+              as='image'
+              href={`${cataas.config.imageBaseURL}${image.id}`}
+            />
+          ))}
+        </Helmet>
+      }
+    </>
   );
 }
 
