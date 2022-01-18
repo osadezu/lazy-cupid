@@ -6,7 +6,7 @@ import {
   useNavigate,
 } from 'react-router-dom';
 import { useListReducer } from '../hooks/useListReducer';
-import { allImageProviders, paperQuotes } from '../providers';
+import { cataas, paperQuotes } from '../providers';
 
 import Card from './Card';
 import Toolkit from './Toolkit';
@@ -30,7 +30,7 @@ function oldCollectionReducer(state, action) {
 
 function Builder() {
   // Get general app settings
-  const { appContext, details, detailsDispatch } = useOutletContext();
+  const { details, detailsDispatch } = useOutletContext();
 
   // Hook to navigate to card preview when user is done building
   const navigate = useNavigate();
@@ -41,37 +41,37 @@ function Builder() {
   // const [images, imageDispatch] = useReducer(oldCollectionReducer, []);
   const [quotes, quoteDispatch] = useReducer(oldCollectionReducer, []);
 
-  // Content sources (For future addition of different choice APIs)
-  const imageBaseURL = appContext.imagesAPIs[0].imageBaseURL;
-  const quoteRequestURL = appContext.quotesAPI.apiBaseURL;
-
   useEffect(() => {
     let mounted = true;
     // TODO: Combine this logic into a single function that can fetch from both APIs
     // and is reusable for loading additional content.
 
-    allImageProviders
-      .fetch('cats')
+    // Initialize images with retained state from details
+    if (details?.imageID) {
+      imageDispatch({
+        type: 'append',
+        payload: [
+          {
+            id: details.imageID,
+            tags: details.imageAlt.split(' ').slice(0, -1),
+          },
+        ],
+      });
+    }
+
+    cataas
+      .fetch()
       .then((res) => {
         // exit early when unmounted
         if (!mounted) {
           return;
         }
         // component is still mounted
-        let index = res.findIndex((v) => v?.id === details?.imageID);
-        if (index === -1) {
-          index = 0;
-          res = !details?.imageID
-            ? res
-            : [
-                {
-                  id: details.imageID,
-                  tags: details.imageAlt.split(' ').slice(0, -1),
-                },
-                ...res,
-              ];
-        }
-        imageDispatch({ type: 'new', index, payload: res });
+        imageDispatch({
+          type: 'append',
+          payload: res,
+          identifier: (item) => item.id,
+        });
       })
       .catch((err) => {
         navigate('/oops', {
@@ -169,7 +169,7 @@ function Builder() {
       <Card
         cardDetails={{
           ...details,
-          imageSrc: `${imageBaseURL}${details.imageID}`,
+          imageSrc: `${cataas.config.imageBaseURL}${details.imageID}`,
         }}
       />
       <Toolkit

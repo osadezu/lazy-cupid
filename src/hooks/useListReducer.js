@@ -18,14 +18,20 @@ function listReducer(state, action) {
       return { ...state, index, choice: state.items[index] };
     }
 
-    case 'new':
-      const index = action.index != null ? action.index : state.index;
-      const items = Array.isArray(action.payload)
-        ? [...state.items, ...action.payload]
-        : [...state.items, action.payload];
-      const choice = items[index];
+    case 'append':
+      let { payload, identifier: getIdentifier } = action;
 
-      return { ...state, index, items, choice };
+      if (getIdentifier) {
+        const existing = state.items.map(getIdentifier);
+
+        payload = payload.filter((newItem) => {
+          return existing.includes(getIdentifier(newItem)) === false;
+        });
+      }
+
+      const newItems = [...state.items, ...payload];
+
+      return { ...state, items: newItems, choice: newItems[state.index] };
 
     default:
       return state; // do nothing
