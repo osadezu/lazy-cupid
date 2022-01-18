@@ -1,5 +1,5 @@
 // eslint-disable react-hooks/exhaustive-deps
-import { useEffect, useMemo, useReducer } from 'react';
+import { useEffect, useReducer } from 'react';
 import {
   useOutletContext,
   createSearchParams,
@@ -10,9 +10,6 @@ import { cataas, paperQuotes } from '../providers';
 
 import Card from './Card';
 import Toolkit from './Toolkit';
-
-// Load static data for testing/debugging
-// import { getQuotes, getCats } from '../data/staticData'
 
 // TODO: Refactor this to use collection[] + selection index variable
 function oldCollectionReducer(state, action) {
@@ -36,9 +33,7 @@ function Builder() {
   const navigate = useNavigate();
 
   // States and reduers for content collections
-  // const [images, imageDispatch] = useReducer(collectionReducer, initImages());
   const [images, imageDispatch] = useListReducer();
-  // const [images, imageDispatch] = useReducer(oldCollectionReducer, []);
   const [quotes, quoteDispatch] = useReducer(oldCollectionReducer, []);
 
   useEffect(() => {
@@ -82,6 +77,7 @@ function Builder() {
     paperQuotes
       .fetch()
       .then((res) => {
+        console.log('paperQuotes', { res });
         // exit early when unmounted
         if (!mounted) {
           return;
@@ -100,10 +96,6 @@ function Builder() {
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  useEffect(() => {
-    // console.log('log', { details });
-  }, [details]);
 
   // Changes to content collections trigger updating selections details
   useEffect(() => {
@@ -164,6 +156,7 @@ function Builder() {
     }
   }
 
+  console.log('render', { details });
   return (
     <main className='builder'>
       <Card
