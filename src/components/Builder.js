@@ -1,4 +1,3 @@
-// eslint-disable react-hooks/exhaustive-deps
 import { useEffect, useReducer } from 'react';
 import {
   useOutletContext,
@@ -13,20 +12,6 @@ import { cataas, paperQuotes } from '../providers';
 import Card from './Card';
 import Toolkit from './Toolkit';
 
-// TODO: Refactor this to use collection[] + selection index variable
-function oldCollectionReducer(state, action) {
-  switch (action.type) {
-    case 'next':
-      return [...state.slice(1), state[0]]; // Replace with index increase
-    case 'prev':
-      return [...state.slice(-1), ...state.slice(0, -1)]; // Replace with index decrease
-    case 'new':
-      return [...action.payload];
-    default:
-      return state; // do nothing
-  }
-}
-
 function Builder() {
   // Get general app settings
   const { details, detailsDispatch } = useOutletContext();
@@ -34,14 +19,12 @@ function Builder() {
   // Hook to navigate to card preview when user is done building
   const navigate = useNavigate();
 
-  // States and reduers for content collections
+  // States and reducers for content collections
   const [images, imageDispatch] = useListReducer();
-  const [quotes, quoteDispatch] = useReducer(oldCollectionReducer, []);
+  const [quotes, quoteDispatch] = useListReducer();
 
   useEffect(() => {
     let mounted = true;
-    // TODO: Combine this logic into a single function that can fetch from both APIs
-    // and is reusable for loading additional content.
 
     // Initialize images with retained state from details
     if (details?.imageID) {
@@ -56,6 +39,20 @@ function Builder() {
       });
     }
 
+    // Initialize quotes with retained state from details
+    if (details?.quote) {
+      quoteDispatch({
+        type: 'append',
+        payload: [
+          {
+            quote: details.quote,
+            author: details.quoteAuthor,
+          },
+        ],
+      });
+    }
+
+    // Fetch content from images provider
     cataas
       .fetch()
       .then((res) => {
@@ -76,16 +73,20 @@ function Builder() {
         });
       });
 
+    // Fetch content from quotes provider
     paperQuotes
       .fetch()
       .then((res) => {
-        console.log('paperQuotes', { res });
         // exit early when unmounted
         if (!mounted) {
           return;
         }
         // component is still mounted
-        quoteDispatch({ type: 'new', payload: res.results });
+        quoteDispatch({
+          type: 'append',
+          payload: res.results,
+          identifier: (item) => item.quote,
+        });
       })
       .catch((err) => {
         navigate('/oops', {
@@ -103,7 +104,7 @@ function Builder() {
   useEffect(() => {
     console.log({ images, quotes });
     // Wait until collections have been loaded.
-    if (!images?.choice || !quotes?.length) return;
+    if (!images?.choice || !quotes?.choice) return;
 
     detailsDispatch({
       type: 'update-content',
@@ -112,13 +113,13 @@ function Builder() {
         imageAlt: images.choice.tags.length
           ? images.choice.tags.join(' ') + ' cat'
           : 'cute cat',
-        quote: quotes[0].quote,
-        quoteAuthor: quotes[0].author,
+        quote: quotes.choice.quote,
+        quoteAuthor: quotes.choice.author,
       },
     });
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [images?.choice, quotes?.[0]]);
+  }, [images?.choice, quotes?.choice]);
 
   // When user is done, preview card and generate URL
   function handleSubmit(event) {
