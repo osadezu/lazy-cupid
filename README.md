@@ -4,17 +4,11 @@ A silly but fully functional web app that allows someone who is short on time to
 
 The user is given several options to customize a greeting card, including content obtained from the APIs listed below, and an option to add a personal message. When done, the user can copy an encoded URL which specifies the customizations so that the recipient can see it exactly as created without server-side data storage.
 
-### See it here:
+## See it live
 
-https://lazy-cupid.netlify.app/
+https://lazy-cupid.osadezu.com/
 
-### Getting Started
-
-- The app is used online in a browser running Javascript, no need to install anything!
-- Or you can get your own copy:
-  - Fork this repopsitory
-  - Clone it to your computer
-  - use 'npm i' to install dependencies and 'npm start' to use a React development build 
+[![Netlify Status](https://api.netlify.com/api/v1/badges/75924582-b0b2-4ad1-961c-6cd2789ef6bb/deploy-status)](https://app.netlify.com/sites/lazy-cupid/deploys)
 
 ## App Screenshot
 <img width="1301" alt="20220111 Lazy Cupid screenshot" src="https://user-images.githubusercontent.com/24361930/148898075-44cffc2f-dffb-4476-88bb-01549c21fcf1.png">
@@ -26,30 +20,14 @@ https://lazy-cupid.netlify.app/
 - [Browser Router](https://reactrouter.com/)
 - Authenticated API requests (HTTP over TLS)
 
-### Acknowledgement
+#### Acknowledgement
 
 The following APIs provide the greeting card content:
 
 - [Paper Quotes](https://paperquotes.com/)
 - [Cataas](https://cataas.com/)
 
-## Next Steps
-
-- Refactor API calls to organize in modular functions that enable subsequent calls to add content to collections.
-- Improve app logic to preserve states when returning from card preview to builder.
-- Perform validation of search parameters when loading shared link to verify that the minimum components are present and no apparent errors are found.
-- Use Protocol Buffers to compress url search parameters and obscure details.
-- Add more customization options like images from a different API and selectors for image fit andbackground color.
-
-## User Stories
-
-- As a user, I want to customize a card so that I can send a personal message in little time.
-- As a user, I want my message to be cute and graphically rich so that it can be more compelling and remembered.
-- As a busy user, I want to send my custom card without account creation or logging in, so that I can do it in the least amount of time.
-- As a user, I want to have several card customization options so that I know that my card is unique.
-- As a user, I want to be sure that my card is visible exactly as I made it so that I know how my recipient will see it.
-
-### MVP Goals
+## MVP Goals
 
 - Card can be customized with:
   - recipient and sender names
@@ -58,3 +36,19 @@ The following APIs provide the greeting card content:
   - personal message
 - Card can be sent by simply copying a url which encodes all customizations
 - One URL displays the card builder UI to the originating user, a different URL is copied and sent to the recipient
+
+### Next Steps
+
+- Refactor API calls to organize in modular functions that enable subsequent calls to add content to collections.
+- Improve app logic to preserve states when returning from card preview to builder.
+- Perform validation of search parameters when loading shared link to verify that the minimum components are present and no apparent errors are found.
+- Use Protocol Buffers to compress url search parameters and obscure details.
+- Add more customization options like images from a different API and selectors for image fit andbackground color.
+
+### User Stories
+
+- As a user, I want to customize a card so that I can send a personal message in little time.
+- As a user, I want my message to be cute and graphically rich so that it can be more compelling and remembered.
+- As a busy user, I want to send my custom card without account creation or logging in, so that I can do it in the least amount of time.
+- As a user, I want to have several card customization options so that I know that my card is unique.
+- As a user, I want to be sure that my card is visible exactly as I made it so that I know how my recipient will see it.
