@@ -28,14 +28,14 @@ function Toolkit({
         className='prev'
         onClick={() => handleSelection('image', 'prev')}
       />
-      <button
+      {/* <button
         type='button'
         name='image'
         className='text-button'
-        disabled
         onClick={() => handleSelection('image', 'more')}>
         more cats
-      </button>
+      </button> */}
+      <p className='text-button'>more cats</p>
       <button
         type='button'
         name='image'
@@ -48,14 +48,14 @@ function Toolkit({
         className='prev'
         onClick={() => handleSelection('quote', 'prev')}
       />
-      <button
+      {/* <button
         type='button'
         id='quote'
         className='text-button'
-        disabled
         onClick={() => handleSelection('quote', 'more')}>
         more quotes
-      </button>
+      </button> */}
+      <p className='text-button'>more quotes</p>
       <button
         type='button'
         name='quote'
