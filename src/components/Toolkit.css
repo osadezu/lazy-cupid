@@ -1,6 +1,5 @@
 .toolkit {
   margin: 0;
-  margin-left: var(--main-spacing);
   grid-area: toolkit;
   place-self: start center;
 

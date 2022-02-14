@@ -46,6 +46,7 @@ function App() {
   // TODO: reset button if user navigates back and returns to preview
   const [copied, setCopied] = useState(false);
   function handleCopyLink(event) {
+    // This works in iOS on an https connection
     navigator.clipboard
       .writeText(window.location.href)
       .then(() => setCopied(true));
