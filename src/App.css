@@ -55,6 +55,8 @@ footer {
   display: flex;
   flex-flow: column nowrap;
   align-items: center;
+  position: relative;
+  bottom: 0;
 }
 
 footer > * {
@@ -169,7 +171,7 @@ main.builder {
   grid-template-rows: auto;
   grid-template-columns: minmax(400px, 700px) auto;
   grid-template-areas: 'card toolkit';
-  row-gap: var(--main-spacing);
+  gap: var(--main-spacing);
   align-content: flex-start;
 }
 
