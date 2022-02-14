@@ -1,6 +1,6 @@
 .toolkit {
   margin: 0;
-  margin-left: 2.5rem;
+  margin-left: var(--main-spacing);
   grid-area: toolkit;
   place-self: start center;
 
@@ -11,7 +11,7 @@
 }
 
 .toolkit > * {
-  margin: 0.5rem 0;
+  margin: 0.5em 0;
 }
 .toolkit > *:first-child {
   margin-top: 0;
@@ -22,15 +22,15 @@
 
 .toolkit > button {
   place-items: stretch;
-  height: 2rem;
-  width: 2rem;
+  height: 2em;
+  width: 2em;
+  text-align: center;
+  padding: 0;
 }
 
-.toolkit > .prev {
-  justify-self: end;
-}
+.toolkit > .prev,
 .toolkit > .next {
-  justify-self: start;
+  justify-self: center;
 }
 
 .toolkit > .wide {
@@ -42,7 +42,7 @@
 
 .toolkit > label.wide {
   text-align: center;
-  margin-bottom: -0.25rem;
+  margin-bottom: -0.25em;
 }
 
 .toolkit > input::placeholder,
@@ -66,13 +66,9 @@
 }
 
 .toolkit > .prev::before {
-  content: '\25C0';
+  content: '\25C0\FE0E';
 }
 
 .toolkit > .next::before {
-  content: '\25B6';
+  content: '\25B6\FE0E';
 }
-
-/* .toolkit > label.wide {
-  place-self: end center;
-} */

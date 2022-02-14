@@ -15,8 +15,6 @@
     'left tr'
     'left br'
     'left bttm';
-
-  font-size: 1rem;
 }
 
 .card * {
@@ -33,9 +31,11 @@
   font-size: 1.2em;
 }
 
+.photo,
+.quote,
 .recipient,
 .message {
-  margin: 1.5rem;
+  margin: var(--material-padding);
 }
 
 .signature {
@@ -49,7 +49,8 @@
 }
 
 .signature > p {
-  margin: -0.75rem 3rem 1rem 2rem;
+  margin: calc(var(--material-padding) * -0.5) var(--main-spacing)
+    var(--main-reduced-spacing) var(--material-padding);
 }
 
 .sender {
@@ -63,7 +64,6 @@
 }
 
 .quote {
-  margin: 1.5rem;
   grid-area: tr;
   place-self: center stretch;
 
@@ -88,10 +88,25 @@
 }
 
 .photo {
-  margin: 1.5rem;
   grid-area: left;
   /* Use black mat? */
   /* background-color: black; */
   -o-object-fit: cover;
   object-fit: cover;
+}
+
+/* Std builder width 1073px */
+@media only screen and (max-width: 1073px) {
+  .photo {
+    margin-right: 0;
+  }
+}
+
+/* Resize card container to medium 580px */
+@media only screen and (max-width: 580px) {
+  .card {
+    min-height: 250px;
+    grid-template-columns: minmax(150px, 1fr) minmax(100px, 1fr);
+    grid-template-rows: auto auto auto;
+  }
 }

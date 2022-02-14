@@ -14,6 +14,10 @@
   --quote-font: 'Merienda One', cursive;
   --signature-font: 'Licorice', cursive;
   --message-font: 'Courier New', Courier, monospace;
+
+  --material-padding: 1.5rem;
+  --main-spacing: 2.5rem;
+  --main-reduced-spacing: 1rem;
 }
 
 body {
@@ -30,14 +34,14 @@ body {
 
 header,
 footer {
-  padding: 1rem 2.5rem;
+  padding: var(--main-reduced-spacing) var(--main-spacing);
   background-color: var(--highlight-background-color);
   color: var(--highlight-text-color);
 }
 
 header {
-  padding: 1rem 2.5rem;
-  padding-bottom: 1.5rem;
+  padding: var(--main-reduced-spacing) var(--main-spacing);
+  padding-bottom: calc(var(--main-reduced-spacing) * 1.5);
 
   display: flex;
   flex-flow: row nowrap;
@@ -54,8 +58,9 @@ footer {
 }
 
 footer > * {
-  margin-top: 0.25rem;
-  margin-bottom: 0.5rem;
+  margin-top: 0.25em;
+  margin-bottom: 0.5em;
+  text-align: center;
 }
 
 .footer-text {
@@ -74,24 +79,28 @@ footer .acknowledge > a {
 
 header h1 {
   font-family: var(--header-h1-font);
-  font-size: 3rem;
+  font-size: 3em;
   line-height: 1;
+  white-space: nowrap;
 }
 
-header a:hover,
+header a:hover {
+  text-shadow: 0.08em 0.08em black;
+}
+
 footer a:hover {
-  text-shadow: 0.15rem 0.15rem black;
+  text-shadow: 0.1em 0.1em black;
 }
 
 h2 {
-  margin-bottom: 1.5rem;
+  margin-bottom: var(--material-padding);
   font-family: var(--header-h2-font);
 }
 
 main {
   flex: 1 0 auto;
   margin: 0 auto;
-  padding: 3rem 2.5rem;
+  padding: calc(var(--main-spacing) * 1.2) var(--main-spacing);
 }
 
 main.welcome,
@@ -99,6 +108,7 @@ main.error {
   max-width: 600px;
   display: flex;
   flex-flow: column nowrap;
+  justify-content: center;
 
   text-align: center;
   line-height: 1.5;
@@ -107,7 +117,7 @@ main.error {
 
 .build-link {
   display: inline-block;
-  margin-top: 1.5rem;
+  margin-top: var(--material-padding);
   font-weight: bold;
 }
 
@@ -117,12 +127,12 @@ main.error {
 
 .build-link::before {
   content: '👉';
-  margin-right: 0.75rem;
+  margin-right: 0.75em;
 }
 
 .build-link::after {
   content: '🍯';
-  margin-left: 0.5rem;
+  margin-left: 0.5em;
 }
 
 .error > .cardstock {
@@ -132,8 +142,8 @@ main.error {
 }
 
 .error-message button {
-  margin-top: 1.75rem;
-  margin-bottom: 0.75rem;
+  margin-top: 1.75em;
+  margin-bottom: 0.75em;
 }
 
 .error-message button.concealed::after {
@@ -150,7 +160,7 @@ main.error {
 }
 
 .hero-emoji {
-  font-size: 3rem;
+  font-size: 3em;
   margin-bottom: 0;
 }
 
@@ -159,6 +169,8 @@ main.builder {
   grid-template-rows: auto;
   grid-template-columns: minmax(400px, 700px) auto;
   grid-template-areas: 'card toolkit';
+  row-gap: var(--main-spacing);
+  align-content: flex-start;
 }
 
 main.retriever {
@@ -166,24 +178,25 @@ main.retriever {
   grid-template-rows: auto;
   grid-template-columns: minmax(400px, 700px);
   grid-template-areas: 'card';
+  align-content: center;
 }
 
 .cardstock {
-  margin: 1rem;
-  padding: 1.5rem;
-  border-radius: 0.2rem;
+  margin: var(--main-reduced-spacing);
+  padding: var(--material-padding);
+  border-radius: 0.2em;
   background-color: white;
-  box-shadow: 0.5rem 0.75rem 0.2rem rgb(0, 0, 0);
+  box-shadow: 0.5em 0.75em 0.2em rgb(0, 0, 0);
 }
 
 button {
   border: 0;
-  border-radius: 0.2rem;
+  border-radius: 0.2em;
   background-color: var(--action-background-color);
   color: var(--highlight-text-color);
-  box-shadow: 0.15rem 0.15rem black;
-  -webkit-transform: translateY(-0.15rem);
-  transform: translateY(-0.15rem);
+  box-shadow: 0.15em 0.15em black;
+  -webkit-transform: translateY(-0.15em);
+  transform: translateY(-0.15em);
 }
 
 button.action-button {
@@ -191,8 +204,9 @@ button.action-button {
 }
 
 header .action-button {
-  margin-top: 0.2rem;
-  height: 2rem;
+  margin-top: 0.2em;
+  height: 2em;
+  white-space: nowrap;
 }
 header .action-button:hover {
   background-color: var(--highlight-text-color);
@@ -200,9 +214,9 @@ header .action-button:hover {
 }
 
 button:active {
-  box-shadow: 0.15rem 0 black;
-  -webkit-transform: translateY(0.15rem);
-  transform: translateY(0.15rem);
+  box-shadow: 0.15em 0 black;
+  -webkit-transform: translateY(0.15em);
+  transform: translateY(0.15em);
 }
 
 button.reveal-error {
@@ -218,5 +232,63 @@ button:hover {
 input,
 textarea {
   border: 1px solid var(--action-background-color);
-  border-radius: 0.2rem;
+  border-radius: 0.2em;
+}
+
+/* Std builder width 1073px */
+@media only screen and (max-width: 1073px) {
+  :root {
+    --material-padding: 1rem;
+    --main-spacing: 2rem;
+    --main-reduced-spacing: 0.8rem;
+  }
+  main {
+    padding: var(--main-spacing);
+  }
+}
+
+/* Flip builder to stacked toolkit mode 872px */
+@media only screen and (max-width: 872px) {
+  main.builder {
+    grid-template-rows: auto auto;
+    grid-template-columns: minmax(400px, 700px);
+    grid-template-areas:
+      'card'
+      'toolkit';
+  }
+}
+
+/* Std retriever width 764px */
+@media only screen and (max-width: 764px) {
+  :root {
+    --material-padding: 0.75rem;
+    --main-spacing: 1rem;
+    --main-reduced-spacing: 0.4rem;
+  }
+  header .action-button {
+    height: 2.5em;
+  }
+  body {
+    font-size: 0.9rem;
+  }
+  main.builder {
+    grid-template-columns: auto;
+  }
+  main.retriever {
+    grid-template-columns: auto;
+  }
+}
+
+/* Resize card container to medium 580px */
+@media only screen and (max-width: 580px) {
+  body {
+    font-size: 0.75rem;
+  }
+}
+
+/* Resize fonts to min 425px */
+@media only screen and (max-width: 425px) {
+  body {
+    font-size: 0.6rem;
+  }
 }
