@@ -199,6 +199,7 @@ button {
   box-shadow: 0.15em 0.15em black;
   -webkit-transform: translateY(-0.15em);
   transform: translateY(-0.15em);
+  transition: background-color 0.3s ease-out;
 }
 
 button.action-button {
@@ -235,6 +236,10 @@ input,
 textarea {
   border: 1px solid var(--action-background-color);
   border-radius: 0.2em;
+}
+
+a {
+  transition: all 0.2s ease-out;
 }
 
 /* Std builder width 1073px */
