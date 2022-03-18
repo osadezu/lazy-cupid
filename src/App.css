@@ -42,6 +42,7 @@ footer {
 header {
   padding: var(--main-reduced-spacing) var(--main-spacing);
   padding-bottom: calc(var(--main-reduced-spacing) * 1.5);
+  position: relative;
 
   display: flex;
   flex-flow: row nowrap;
@@ -220,6 +221,43 @@ header .action-button {
 header .action-button:hover {
   background-color: var(--highlight-text-color);
   color: var(--highlight-background-color);
+}
+header .pointy-hand {
+  font-size: 5em;
+  position: absolute;
+  right: calc(0.8 * var(--main-spacing));
+  bottom: -1em;
+  animation: fadeAndPoint 5s 1s 1 both;
+}
+@keyframes fadeAndPoint {
+  from {
+    opacity: 0;
+    transform: translateY(30vh);
+  }
+  10% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  21% {
+    opacity: 1;
+    transform: translateY(0.25em);
+  }
+  30% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  41% {
+    opacity: 1;
+    transform: translateY(0.25em);
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(0.25em);
+  }
 }
 
 button:active {

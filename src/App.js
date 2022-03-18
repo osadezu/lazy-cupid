@@ -68,12 +68,15 @@ function App() {
         </h1>
         {/* Enable copy link button after navigating from builder to retriever */}
         {state && 'senderView' in state && (
-          <button
-            type='button'
-            className='action-button'
-            onClick={handleCopyLink}>
-            {copied ? 'Copied!' : 'Copy Link'}
-          </button>
+          <>
+            <button
+              type='button'
+              className='action-button'
+              onClick={handleCopyLink}>
+              {copied ? 'Copied!' : 'Copy Link'}
+            </button>
+            <div className='pointy-hand'>👆</div>
+          </>
         )}
       </header>
       <Outlet context={{ appContext, details, detailsDispatch, setCopied }} />
