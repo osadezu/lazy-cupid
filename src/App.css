@@ -233,30 +233,37 @@ header .pointy-hand {
   from {
     opacity: 0;
     transform: translateY(30vh);
+    text-shadow: none;
   }
   10% {
     opacity: 1;
     transform: translateY(0);
+    text-shadow: 0.4rem 0.65rem 0.65rem black;
   }
   21% {
     opacity: 1;
     transform: translateY(0.2em);
+    text-shadow: 0.4rem 0.65rem 0.65rem black;
   }
   30% {
     opacity: 1;
     transform: translateY(0);
+    text-shadow: 0.4rem 0.65rem 0.65rem black;
   }
   41% {
     opacity: 1;
     transform: translateY(0.2em);
+    text-shadow: 0.4rem 0.65rem 0.65rem black;
   }
   50% {
     opacity: 1;
     transform: translateY(0);
+    text-shadow: 0.4rem 0.65rem 0.65rem black;
   }
   to {
     opacity: 0;
-    transform: translateY(0.2em);
+    transform: translateY(0.5em);
+    text-shadow: none;
   }
 }
 
