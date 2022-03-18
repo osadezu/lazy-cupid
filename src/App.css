@@ -226,7 +226,8 @@ header .pointy-hand {
   font-size: 5em;
   position: absolute;
   right: calc(0.8 * var(--main-spacing));
-  bottom: -1em;
+  bottom: -1.1em;
+  line-height: 1.5;
   animation: fadeAndPoint 5s 1s 1 both;
 }
 @keyframes fadeAndPoint {
@@ -238,27 +239,27 @@ header .pointy-hand {
   10% {
     opacity: 1;
     transform: translateY(0);
-    text-shadow: 0.4rem 0.65rem 0.65rem black;
+    text-shadow: 0.25rem 0.45rem 0.55rem black;
   }
   21% {
     opacity: 1;
     transform: translateY(0.2em);
-    text-shadow: 0.4rem 0.65rem 0.65rem black;
+    text-shadow: 0.25rem 0.45rem 0.55rem black;
   }
   30% {
     opacity: 1;
     transform: translateY(0);
-    text-shadow: 0.4rem 0.65rem 0.65rem black;
+    text-shadow: 0.25rem 0.45rem 0.55rem black;
   }
   41% {
     opacity: 1;
     transform: translateY(0.2em);
-    text-shadow: 0.4rem 0.65rem 0.65rem black;
+    text-shadow: 0.25rem 0.45rem 0.55rem black;
   }
   50% {
     opacity: 1;
     transform: translateY(0);
-    text-shadow: 0.4rem 0.65rem 0.65rem black;
+    text-shadow: 0.25rem 0.45rem 0.55rem black;
   }
   to {
     opacity: 0;
