@@ -189,6 +189,12 @@ main.retriever {
   border-radius: 0.2em;
   background-color: white;
   box-shadow: 0.5em 0.75em 0.2em rgb(0, 0, 0);
+  transition: all 0.75s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+}
+
+.retriever .cardstock:hover {
+  transform: translateY(-0.75em);
+  box-shadow: 0.75em 1em 1.25em 0.5em rgba(0, 0, 0, 0.65);
 }
 
 button {
