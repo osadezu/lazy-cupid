@@ -240,7 +240,7 @@ header .pointy-hand {
   }
   21% {
     opacity: 1;
-    transform: translateY(0.25em);
+    transform: translateY(0.2em);
   }
   30% {
     opacity: 1;
@@ -248,7 +248,7 @@ header .pointy-hand {
   }
   41% {
     opacity: 1;
-    transform: translateY(0.25em);
+    transform: translateY(0.2em);
   }
   50% {
     opacity: 1;
@@ -256,7 +256,7 @@ header .pointy-hand {
   }
   to {
     opacity: 0;
-    transform: translateY(0.25em);
+    transform: translateY(0.2em);
   }
 }
 
